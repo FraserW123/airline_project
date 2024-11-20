@@ -2,14 +2,18 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
-import requests
-import json
 
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
 
-import sklearn
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import classification_report
 
 ####################################################
 # Load the data
@@ -45,14 +49,14 @@ for i, col in enumerate(df.columns):
     ax.set_title(col)
     ax.legend()
 plt.subplots_adjust(wspace=0.4, hspace=0.4)
-plt.savefig('flights.png')
+# plt.savefig('flights.png')
 plt.show()
 
 
 # %%
 # DATA CLEANING
 # encode the categorical data
-from sklearn.preprocessing import LabelEncoder
+
 le = LabelEncoder()
 
 def clean_labels_encoder(list_of_labels, df):
@@ -70,26 +74,6 @@ df = df.drop(['CARRIER_HISTORICAL', 'DEP_AIRPORT_HIST', 'DAY_HISTORICAL',
 
 # Fill the missing values
 df.fillna(df.mean(), inplace=True)
-
-
-# print(ontime.shape)
-# print(delayed.shape)
-
-# print(ontime.columns)
-"""
-Index(['MONTH', 'DAY_OF_WEEK', 'DEP_DEL15', 'DEP_TIME_BLK', 'DISTANCE_GROUP',
-       'SEGMENT_NUMBER', 'CONCURRENT_FLIGHTS', 'NUMBER_OF_SEATS',
-       'CARRIER_NAME', 'AIRPORT_FLIGHTS_MONTH', 'AIRLINE_FLIGHTS_MONTH',
-       'AIRLINE_AIRPORT_FLIGHTS_MONTH', 'AVG_MONTHLY_PASS_AIRPORT',
-       'AVG_MONTHLY_PASS_AIRLINE', 'FLT_ATTENDANTS_PER_PASS',
-       'GROUND_SERV_PER_PASS', 'PLANE_AGE', 'DEPARTING_AIRPORT', 'LATITUDE',
-       'LONGITUDE', 'PREVIOUS_AIRPORT', 'PRCP', 'SNOW', 'SNWD', 'TMAX', 'AWND',
-       'CARRIER_HISTORICAL', 'DEP_AIRPORT_HIST', 'DAY_HISTORICAL',
-       'DEP_BLOCK_HIST'],
-      dtype='object')
-"""
-# plt.hist(ontime['MONTH'], alpha=0.5, label='ontime')
-# plt.hist(delayed['MONTH'], alpha=0.5, label='delayed')
 
 
 # %%
@@ -120,9 +104,7 @@ print(correlation)
 # %%
 ####################################################
 # Plot some heatmaps to see the correlation between the features
-import seaborn as sns
-# numeric_cols = numeric_cols.drop(['CARRIER_HISTORICAL', 'DEP_AIRPORT_HIST', 'DAY_HISTORICAL',
-#        'DEP_BLOCK_HIST'])
+
 
 def plot_heatmap(df):
     plt.figure(figsize=(20, 10))
@@ -138,17 +120,14 @@ plot_heatmap(df)
 ####################################################
 
 # Split the data into training and testing data
-from sklearn.model_selection import train_test_split
+
 
 X = df.drop('DEP_DEL15', axis=1)
 y = df['DEP_DEL15']
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import confusion_matrix
-from sklearn.metrics import classification_report
+
 
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train, y_train)
