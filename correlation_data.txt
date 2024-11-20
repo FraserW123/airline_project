@@ -1,0 +1,26 @@
+DEP_TIME_BLK                     0.161006
+SEGMENT_NUMBER                   0.109606
+PRCP                             0.061370
+SNOW                             0.042943
+AWND                             0.033686
+AVG_MONTHLY_PASS_AIRPORT         0.032704
+AIRPORT_FLIGHTS_MONTH            0.032344
+DISTANCE_GROUP                   0.024174
+SNWD                             0.023418
+AIRLINE_AIRPORT_FLIGHTS_MONTH    0.018812
+LONGITUDE                        0.015328
+CARRIER_NAME                     0.013586
+AVG_MONTHLY_PASS_AIRLINE         0.012295
+AIRLINE_FLIGHTS_MONTH            0.011528
+NUMBER_OF_SEATS                  0.010463
+PLANE_AGE                        0.008791
+CONCURRENT_FLIGHTS               0.007043
+DEPARTING_AIRPORT                0.002791
+TMAX                            -0.005291
+DAY_OF_WEEK                     -0.007586
+PREVIOUS_AIRPORT                -0.008135
+FLT_ATTENDANTS_PER_PASS         -0.014290
+LATITUDE                        -0.015077
+GROUND_SERV_PER_PASS            -0.018514
+MONTH                           -0.029349
+Name: DEP_DEL15, dtype: float64
