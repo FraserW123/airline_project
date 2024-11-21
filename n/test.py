@@ -19,8 +19,8 @@ import sklearn
 # read dataset and check
 df = pd.read_csv("full_data_flightdelay.csv.xz", compression='xz')
 
-# Take a random sample of 1000 rows
-df = df.sample(n=1000, random_state=42) # use random_state for reproducibility
+# Take a random sample of n rows
+df = df.sample(n=5000, random_state=42) # use random_state for reproducibility
 
 ##########################
 ## INITIAL DATA EXPLORATION
@@ -90,9 +90,9 @@ df_standardize = pd.DataFrame(df_standardize, columns=df_clustering.columns)
 df_normalize = pd.DataFrame(df_normalize, columns=df_clustering.columns )
 
 # # Check results
-print(f"Original number of features standardize: {df_standardize.shape[1]}")
-print(f"Original number of features normalized: {df_normalize.shape[1]}")
-print(f"Reduced number of features after PCA: {pca.n_components_}")
+# print(f"Original number of features standardize: {df_standardize.shape[1]}")
+# print(f"Original number of features normalized: {df_normalize.shape[1]}")
+# print(f"Reduced number of features after PCA: {pca.n_components_}")
 
 # print(df.head())
 # print(df_standardize.head())
@@ -115,101 +115,49 @@ print(f"Reduced number of features after PCA: {pca.n_components_}")
 #######################################
 # 4. Clustering
 
-# KMEANS
+# KMEANS with Elbow Method
+# km = KMeans(n_clusters=2, random_state=42)
+# df_normalize['cluster'] = km.fit_predict(df_normalize)
+# print(df_normalize.head())
+# print(df_normalize.cluster.value_counts())
+
+# Scale data (sd from the mean)
+# for col in df.columns:
+#     avg = df[col].mean()
+#     sd = df[col].std()
+#     df[col] = df[col].apply(lambda x: (x-avg)/sd)
+
 sil_scores = []
 inertia = []
 k_range = range(2, 11)
 
-# Fit K-Means for different K values and compute silhouette score
+# Fit K-Means for different K values
 for k in k_range:
     kmeans = KMeans(n_clusters=k, random_state=42)
     kmeans.fit(df_normalize)
     inertia.append(kmeans.inertia_)
     sil_scores.append(silhouette_score(df_normalize, kmeans.labels_))
 
-# Plot Silhouette Score vs. K values
+# silhouette_results = pd.DataFrame(sil_scores, columns=['silhouette_scores'])
+# inertia_results = pd.DataFrame(inertia, columns=['inertia'])
+
+# Plot inertia (Elbow method suggests k=6)
 plt.figure(figsize=(8, 4))
-plt.plot(k_range, sil_scores, marker='o', color='g', label='Silhouette Score')
+plt.plot(k_range, inertia, marker='o', label='Inertia')
+plt.xlabel("Number of Clusters")
+plt.ylabel("Distance (squared) to Cluster Center")
+plt.title("K-Means Elbow Method")
+plt.savefig('inertia.png')
+
+# Plot Silhouette Score (Silhouette Score suggests k=3)
+plt.figure(figsize=(8, 4))
+plt.plot(k_range, sil_scores, marker='o', label='Silhouette Score')
 plt.title('Silhouette Score for Different K')
 plt.xlabel('Number of Clusters (K)')
 plt.ylabel('Silhouette Score')
 plt.xticks(k_range)
 plt.savefig('silh.png')
 
-# Plot inertia
-plt.figure(figsize=(8, 4))
-plt.plot(k_range, inertia, marker='o', label='Inertia')
-plt.xlabel('Number of Clusters (k)')
-plt.ylabel('Inertia')
-plt.title('Elbow Method')
-plt.legend()
-plt.savefig("inertia.png")
-
-# DBSCAN
-
-# # Parameter Estimation
-# nearest_neighbors = NearestNeighbors(n_neighbors=50)
-# neighbors_fit = nearest_neighbors.fit(df_normalize)
-# distances, indices = neighbors_fit.kneighbors(df_normalize)
-
-# # Sort distances for the k-th nearest neighbor
-# distances = np.sort(distances, axis=0)
-# distances = distances[:,1]
-# plt.figure(figsize=(8, 4))
-# plt.plot(distances)
-# plt.title('k-NN Distance Plot')
-# plt.xlabel('Points sorted by distance to k-th nearest neighbor')
-# plt.ylabel(f'50-NN Distance')
-# plt.savefig("knn.png")
-
-# # Test various min_samples values
-# min_samples_values = range(3, 50, 5)  # Adjust the step size based on your needs
-# eps_values = np.linspace(0.1, 1.0, 10)
-
-# # Variables to store the best results
-# best_eps = None
-# best_min_samples = None
-# best_score = -1  # Start with the lowest possible silhouette score
-# best_labels = None  # To save the labels of the best clustering
-
-# for min_samples in min_samples_values:
-#     for eps in eps_values:
-#         dbscan = DBSCAN(eps=eps, min_samples=min_samples)
-#         labels = dbscan.fit_predict(df_normalize)
-        
-#         # Ignore cases where all points are noise
-#         if len(set(labels)) <= 1:
-#             continue
-        
-#         sil_score = silhouette_score(df_normalize, labels)
-
-#         # Check if this combination is better than the current best
-#         if sil_score > best_score:
-#             best_eps = eps
-#             best_min_samples = min_samples
-#             best_score = sil_score
-#             best_labels = labels  # Save the best labels
-
-#         # print(f"min_samples={min_samples}, eps={eps}, silhouette_score={sil_score}")
-
-# # Print the best combination
-# print(f"Best eps: {best_eps}")
-# print(f"Best min_samples: {best_min_samples}")
-# print(f"Best silhouette score: {best_score}")
-
-# dbscan = DBSCAN(eps=1.0, min_samples=13)
-# dbscan_labels = dbscan.fit_predict(df_normalize)
-
-# # Check unique clusters
-# print("Number of clusters (excluding noise):", len(set(dbscan_labels)) - (1 if -1 in dbscan_labels else 0))
-# print("Noise points:", sum(dbscan_labels == -1))
-
-# unique_labels = set(dbscan_labels) - {-1}  # Exclude noise points (-1)
-# if len(unique_labels) > 1:
-#     dbscan_sil_score = silhouette_score(df_normalize, dbscan_labels)
-#     print(f"DBSCAN Silhouette Score: {dbscan_sil_score}")
-# else:
-#     print("Silhouette Score cannot be calculated: Only one cluster found.")
 
 def visualize_cluster(x, y, clustering, filename="scatter_plot.png"):
     plt.figure(figsize=(8, 6))
@@ -238,20 +186,12 @@ reduced_data_pca = reduce_dimensions(data, method="pca")  # 2D PCA
 reduced_data_tsne = reduce_dimensions(data, method="tsne")  # 2D t-SNE
 
 # Clustering: KMeans
-kmeans = KMeans(n_clusters=2, random_state=42)
+kmeans = KMeans(n_clusters=6, random_state=42)
 kmeans_labels = kmeans.fit_predict(data)
 
 # Visualize KMeans Results
-visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], kmeans_labels, "kmeans_pca.png")
-visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], kmeans_labels, "kmeans_tsne.png")
-
-# Clustering: DBSCAN
-dbscan = DBSCAN(eps=1.0, min_samples=13)
-dbscan_labels = dbscan.fit_predict(data)
-
-# Visualize DBSCAN Results
-visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], dbscan_labels, "dbscan_pca.png")
-visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], dbscan_labels, "dbscan_tsne.png")
+visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], kmeans_labels, "6-kmeans_pca.png")
+visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], kmeans_labels, "6-kmeans_tsne.png")
 
 
 # Reserve train.csv and test.csv for Benchmarking.
