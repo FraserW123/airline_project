@@ -17,7 +17,7 @@ from sklearn.metrics import classification_report
 
 ####################################################
 # Load the data
-df = pd.read_csv("test.csv.xz", compression='xz')
+df = pd.read_csv("n/full_data_flightdelay.csv.xz", compression='xz')
 #print(df.head())
 
 # take a random sample of 1000 rows
