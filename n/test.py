@@ -2,11 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import requests
-import json
+# import requests
+# import json
 
 from sklearn.cluster import DBSCAN, KMeans, AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.covariance import EllipticEnvelope
+from sklearn.ensemble import IsolationForest
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
@@ -21,7 +23,7 @@ import sklearn
 df = pd.read_csv("full_data_flightdelay.csv.xz", compression='xz')
 
 # Take a random sample of n rows
-df = df.sample(n=1000, random_state=42) # use random_state for reproducibility
+df = df.sample(n=10000, random_state=42) # use random_state for reproducibility
 
 ##########################
 ## INITIAL DATA EXPLORATION
@@ -167,7 +169,7 @@ plt.plot(k_range, inertia, marker='o', label='Inertia')
 plt.xlabel("Number of Clusters")
 plt.ylabel("Distance (squared) to Cluster Center")
 plt.title("K-Means Elbow Method")
-plt.savefig('inertia.png')
+# plt.savefig('inertia.png')
 
 # Plot Silhouette Score (Silhouette Score suggests k=3)
 plt.figure(figsize=(8, 4))
@@ -176,7 +178,7 @@ plt.title('Silhouette Score for Different K')
 plt.xlabel('Number of Clusters (K)')
 plt.ylabel('Silhouette Score')
 plt.xticks(k_range)
-plt.savefig('silh.png')
+# plt.savefig('silh.png')
 
 # Dimensionality Reduction (use PCA or t-SNE)
 reduced_data_pca = reduce_dimensions(df_normalize, method="pca")  # 2D PCA
@@ -201,7 +203,7 @@ dendrogram(Z)
 plt.title('Dendrogram for Hierarchical Clustering')
 plt.xlabel('Sample Index')
 plt.ylabel('Distance')
-plt.savefig('dengdrogram.png')
+# plt.savefig('dengdrogram.png')
 
 # Based on dendrogram use n_clusters = 2 or 3
 agg_clustering = AgglomerativeClustering(n_clusters=2)
@@ -251,7 +253,7 @@ agg_df = pd.DataFrame(agg_metrics)
 
 # Combine both DataFrames
 clustering_metrics_df = pd.concat([kmeans_df, agg_df], ignore_index=True)
-print(clustering_metrics_df)
+# print(clustering_metrics_df)
 
 # # Plot the performance metrics for visual comparison
 # plt.figure(figsize=(10, 6))
@@ -272,6 +274,68 @@ print(clustering_metrics_df)
 # plt.ylabel("Metric Value")
 # plt.title("Clustering Performance Metrics (Agglomerative)")
 # plt.savefig('agg_metrics.png')
+
+########################################
+# 5. Outlier Detection
+
+# # Isolation Forest
+# iso_forest = IsolationForest(contamination=0.001, random_state=42)
+# outliers_iso = iso_forest.fit_predict(df_normalize)
+
+# # Mark outliers (1 = inlier, -1 = outlier)
+# outliers_iso = (outliers_iso == -1)
+
+
+
+# Visualize Outliers
+# plt.figure(figsize=(8, 6))
+# plt.scatter(df_normalize.iloc[:, 0], df_normalize.iloc[:, 1], c=outliers_iso, cmap='coolwarm', s=10)
+# plt.colorbar(label='Outlier (1 = Yes, 0 = No)')
+# plt.xlabel('Feature 1')
+# plt.ylabel('Feature 2')
+# plt.title('Isolation Forest Outlier Detection')
+# plt.savefig('auto-isolation_forest_outliers.png')
+
+# visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_iso, "0.001isoforest.png")
+
+results = {
+    # 'Contamination': ['auto', 0.5, 0.1, 0.05, 0.001]
+    'Contamination': [0.5, 0.1, 0.05, 0.001],
+    'Num_Outliers': [],
+}
+
+# Iterate over contamination values
+for contamination in results['Contamination']:
+
+    # Create Isolation Forest model with specified contamination parameter
+    if contamination == 'auto':
+        # model = IsolationForest(contamination=contamination)
+        model = EllipticEnvelope(contamination=contamination)
+    else:
+        # model = IsolationForest(contamination=contamination, random_state=42)
+        model = EllipticEnvelope(contamination=contamination, random_state=42)
+        
+    # Fit the model
+    # model.fit(df_normalize)
+    # outliers_iso = model.fit_predict(df_normalize)
+    outliers_elliptic = model.fit_predict(df_normalize)
+    
+    # Predict outliers (-1) and inliers (1)
+    predictions = model.predict(df_normalize)
+    # outliers_iso = (outliers_iso == -1)
+    outliers_elliptic = (outliers_elliptic == -1)
+    
+    # Calculate number of outliers
+    num_outliers = (predictions == -1).sum()
+    results['Num_Outliers'].append(num_outliers)
+    visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_elliptic, str(contamination) + "elliptic.png")
+    
+
+# Create DataFrame
+results_df = pd.DataFrame(results)
+
+# Print the results DataFrame
+print(results_df)
 
 
 # Reserve train.csv and test.csv for Benchmarking.
