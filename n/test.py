@@ -5,7 +5,8 @@ import seaborn as sns
 import requests
 import json
 
-from sklearn.cluster import DBSCAN, KMeans
+from sklearn.cluster import DBSCAN, KMeans, AgglomerativeClustering
+from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.metrics import silhouette_score
@@ -20,7 +21,7 @@ import sklearn
 df = pd.read_csv("full_data_flightdelay.csv.xz", compression='xz')
 
 # Take a random sample of n rows
-df = df.sample(n=5000, random_state=42) # use random_state for reproducibility
+df = df.sample(n=1000, random_state=42) # use random_state for reproducibility
 
 ##########################
 ## INITIAL DATA EXPLORATION
@@ -114,6 +115,25 @@ df_normalize = pd.DataFrame(df_normalize, columns=df_clustering.columns )
 
 #######################################
 # 4. Clustering
+def visualize_cluster(x, y, clustering, filename="scatter_plot.png"):
+    plt.figure(figsize=(8, 6))
+    scatter = plt.scatter(x, y, c=clustering, cmap='coolwarm', s=5)
+    plt.colorbar(scatter, label='Cluster')
+    plt.xlabel('Principal Component 1')
+    plt.ylabel('Principal Component 2')
+    plt.title('Cluster Visualization')
+    plt.savefig(filename)
+    plt.close()
+    return 0
+
+def reduce_dimensions(data, method="pca", n_components=2):
+    if method == "pca":
+        reducer = PCA(n_components=n_components)
+    elif method == "tsne":
+        reducer = TSNE(n_components=n_components, random_state=42)
+    else:
+        raise ValueError("Unsupported dimensionality reduction method!")
+    return reducer.fit_transform(data)
 
 # KMEANS with Elbow Method
 # km = KMeans(n_clusters=2, random_state=42)
@@ -158,40 +178,47 @@ plt.ylabel('Silhouette Score')
 plt.xticks(k_range)
 plt.savefig('silh.png')
 
-
-def visualize_cluster(x, y, clustering, filename="scatter_plot.png"):
-    plt.figure(figsize=(8, 6))
-    scatter = plt.scatter(x, y, c=clustering, cmap='coolwarm', s=5)
-    plt.colorbar(scatter, label='Cluster')
-    plt.xlabel('Principal Component 1')
-    plt.ylabel('Principal Component 2')
-    plt.title('Cluster Visualization')
-    plt.savefig(filename)
-    plt.close()
-    return 0
-
-def reduce_dimensions(data, method="pca", n_components=2):
-    if method == "pca":
-        reducer = PCA(n_components=n_components)
-    elif method == "tsne":
-        reducer = TSNE(n_components=n_components, random_state=42)
-    else:
-        raise ValueError("Unsupported dimensionality reduction method!")
-    return reducer.fit_transform(data)
-
-data = df_normalize
-
 # Dimensionality Reduction (use PCA or t-SNE)
-reduced_data_pca = reduce_dimensions(data, method="pca")  # 2D PCA
-reduced_data_tsne = reduce_dimensions(data, method="tsne")  # 2D t-SNE
+reduced_data_pca = reduce_dimensions(df_normalize, method="pca")  # 2D PCA
+reduced_data_tsne = reduce_dimensions(df_normalize, method="tsne")  # 2D t-SNE
 
 # Clustering: KMeans
-kmeans = KMeans(n_clusters=6, random_state=42)
-kmeans_labels = kmeans.fit_predict(data)
+kmeans = KMeans(n_clusters=2, random_state=42)
+kmeans_labels = kmeans.fit_predict(df_normalize)
 
 # Visualize KMeans Results
-visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], kmeans_labels, "6-kmeans_pca.png")
-visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], kmeans_labels, "6-kmeans_tsne.png")
+visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], kmeans_labels, "2-kmeans_pca.png")
+visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], kmeans_labels, "2-kmeans_tsne.png")
+
+# Hierarchical Clustering (Agglomerative Clustering)
+
+# Compute the linkage matrix
+Z = linkage(df_normalize, method='ward')  # 'ward' minimizes the variance of clusters
+
+# Plot the dendrogram
+plt.figure(figsize=(10, 7))
+dendrogram(Z)
+plt.title('Dendrogram for Hierarchical Clustering')
+plt.xlabel('Sample Index')
+plt.ylabel('Distance')
+plt.savefig('dengdrogram.png')
+
+# Based on dendrogram use n_clusters = 2 or 3
+agg_clustering = AgglomerativeClustering(n_clusters=2)
+agg_labels = agg_clustering.fit_predict(df_normalize)
+
+# Dimensionality Reduction (use PCA or t-SNE)
+reduced_data_pca_HC = reduce_dimensions(df_normalize, method="pca")
+reduced_data_tsne_HC = reduce_dimensions(df_normalize, method="tsne")
+
+# Visualize Hierarchical Clustering Results
+visualize_cluster(reduced_data_pca_HC[:, 0], reduced_data_pca_HC[:, 1], agg_labels, filename="agglomerative_pca.png")
+visualize_cluster(reduced_data_tsne_HC[:, 0], reduced_data_tsne_HC[:, 1], agg_labels, filename="agglomerative_tsne.png")
+
+agg_sil_score = silhouette_score(df_normalize, agg_labels)
+print(f"Silhouette Score for Agglomerative Clustering: {agg_sil_score}")
+
+
 
 
 # Reserve train.csv and test.csv for Benchmarking.
