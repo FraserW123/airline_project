@@ -9,7 +9,7 @@ from sklearn.cluster import DBSCAN, KMeans, AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-from sklearn.metrics import silhouette_score
+from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.preprocessing import OneHotEncoder
@@ -212,13 +212,66 @@ reduced_data_pca_HC = reduce_dimensions(df_normalize, method="pca")
 reduced_data_tsne_HC = reduce_dimensions(df_normalize, method="tsne")
 
 # Visualize Hierarchical Clustering Results
-visualize_cluster(reduced_data_pca_HC[:, 0], reduced_data_pca_HC[:, 1], agg_labels, filename="agglomerative_pca.png")
-visualize_cluster(reduced_data_tsne_HC[:, 0], reduced_data_tsne_HC[:, 1], agg_labels, filename="agglomerative_tsne.png")
+visualize_cluster(reduced_data_pca_HC[:, 0], reduced_data_pca_HC[:, 1], agg_labels, filename="2-agglomerative_pca.png")
+visualize_cluster(reduced_data_tsne_HC[:, 0], reduced_data_tsne_HC[:, 1], agg_labels, filename="2-agglomerative_tsne.png")
 
-agg_sil_score = silhouette_score(df_normalize, agg_labels)
-print(f"Silhouette Score for Agglomerative Clustering: {agg_sil_score}")
+# Evaluate Clustering Performance
 
+# Store the clustering performance metrics
+kmeans_metrics = []
+agg_metrics = []
 
+# K-Means Clustering Evaluation
+for k in k_range:
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(df_normalize)
+    kmeans_labels = kmeans.labels_
+    
+    # Evaluate performance metrics for K-Means
+    kmeans_metrics.append({
+        "K": k,
+        "Algorithm": "K-Means",
+        "Silhouette Score": silhouette_score(df_normalize, kmeans_labels),
+        "Calinski-Harabasz Index": calinski_harabasz_score(df_normalize, kmeans_labels),
+        "Davies-Bouldin Index": davies_bouldin_score(df_normalize, kmeans_labels)
+    })
+
+# Evaluate performance metrics for Agglomerative Clustering
+agg_metrics.append({
+    "K": 2, 
+    "Algorithm": "Agglomerative",
+    "Silhouette Score": silhouette_score(df_normalize, agg_labels),
+    "Calinski-Harabasz Index": calinski_harabasz_score(df_normalize, agg_labels),
+    "Davies-Bouldin Index": davies_bouldin_score(df_normalize, agg_labels)
+})
+
+# Convert the metrics lists to DataFrames
+kmeans_df = pd.DataFrame(kmeans_metrics)
+agg_df = pd.DataFrame(agg_metrics)
+
+# Combine both DataFrames
+clustering_metrics_df = pd.concat([kmeans_df, agg_df], ignore_index=True)
+print(clustering_metrics_df)
+
+# # Plot the performance metrics for visual comparison
+# plt.figure(figsize=(10, 6))
+# plt.plot(kmeans_df["K"], kmeans_df["Silhouette Score"], marker='o', label='Silhouette Score (K-Means)')
+# plt.plot(kmeans_df["K"], kmeans_df["Calinski-Harabasz Index"], marker='o', label='Calinski-Harabasz (K-Means)')
+# plt.plot(kmeans_df["K"], kmeans_df["Davies-Bouldin Index"], marker='o', label='Davies-Bouldin (K-Means)')
+# plt.xlabel("Number of Clusters (K)")
+# plt.ylabel("Metric Value")
+# plt.title("Clustering Performance Metrics (K-Means)")
+# plt.legend()
+# plt.savefig('kmeans_metrics.png')
+
+# plt.figure(figsize=(10, 6))
+# agg_metrics_list = [agg_df["Silhouette Score"].iloc[0], 
+#                     agg_df["Calinski-Harabasz Index"].iloc[0], 
+#                     agg_df["Davies-Bouldin Index"].iloc[0]]
+# plt.bar(['Silhouette Score', 'Calinski-Harabasz', 'Davies-Bouldin'], agg_metrics_list)
+# plt.ylabel("Metric Value")
+# plt.title("Clustering Performance Metrics (Agglomerative)")
+# plt.savefig('agg_metrics.png')
 
 
 # Reserve train.csv and test.csv for Benchmarking.
