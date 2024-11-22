@@ -12,7 +12,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
-from sklearn.neighbors import NearestNeighbors
+from sklearn.neighbors import LocalOutlierFactor, NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
@@ -278,64 +278,90 @@ clustering_metrics_df = pd.concat([kmeans_df, agg_df], ignore_index=True)
 ########################################
 # 5. Outlier Detection
 
-# # Isolation Forest
-# iso_forest = IsolationForest(contamination=0.001, random_state=42)
-# outliers_iso = iso_forest.fit_predict(df_normalize)
+# Isolation Forest
+iso_forest = IsolationForest(contamination=0.13, random_state=42)
+outliers_iso = iso_forest.fit_predict(df_normalize)
 
-# # Mark outliers (1 = inlier, -1 = outlier)
-# outliers_iso = (outliers_iso == -1)
+# Mark outliers (1 = inlier, -1 = outlier)
+outliers_iso = (outliers_iso == -1)
+
+visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], outliers_iso, "isoforest-tsne-0.13.png")
+visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_iso, "isoforest-pca-0.13.png")
+
+# LOF
+lof = LocalOutlierFactor(n_neighbors=20, contamination=0.13)
+outliers_lof = lof.fit_predict(df_normalize)
+
+# Mark outliers (1 = inlier, -1 = outlier)
+outliers_lof = (outliers_lof == -1)
+
+visualize_cluster(reduced_data_tsne[:, 0], reduced_data_tsne[:, 1], outliers_lof, "LOF-tsne-0.13.png")
+visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_lof, "LOF-pca-0.13.png")
+
+plt.figure(figsize=(8, 5))
+sns.boxplot(data=df_normalize, orient="h")
+plt.title("Boxplot of Normalized Features")
+plt.savefig("boxplot")
+
+iso_forest = IsolationForest(random_state=42)
+outliers_iso = iso_forest.fit_predict(df_normalize)
+print(f"Outliers detected: {(outliers_iso == -1).sum()} / {len(outliers_iso)}")
+
+from scipy.stats import zscore
+# Calculate z-scores for the entire normalized DataFrame
+z_scores = np.abs(zscore(df_normalize))
+
+# Determine the total number of outliers (z > 3)
+outliers_count = (z_scores > 3).max(axis=1).sum()
+
+# Calculate the contamination estimate
+contamination_estimate = outliers_count / df_normalize.shape[0]
+
+# If z_scores is 2D, ensure you sum across the right axis
+if len(outliers_count.shape) > 0:
+    contamination_estimate = outliers_count.max() / df_normalize.shape[0]
+
+# Print the result
+print(f"Estimated contamination: {contamination_estimate:.2f}")
 
 
+# results = {
+#     'Contamination': [0.5, 0.1, 0.05, 0.001],
+#     'Num_Outliers': [],
+# }
 
-# Visualize Outliers
-# plt.figure(figsize=(8, 6))
-# plt.scatter(df_normalize.iloc[:, 0], df_normalize.iloc[:, 1], c=outliers_iso, cmap='coolwarm', s=10)
-# plt.colorbar(label='Outlier (1 = Yes, 0 = No)')
-# plt.xlabel('Feature 1')
-# plt.ylabel('Feature 2')
-# plt.title('Isolation Forest Outlier Detection')
-# plt.savefig('auto-isolation_forest_outliers.png')
+# # Iterate over contamination values
+# for contamination in results['Contamination']:
 
-# visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_iso, "0.001isoforest.png")
-
-results = {
-    # 'Contamination': ['auto', 0.5, 0.1, 0.05, 0.001]
-    'Contamination': [0.5, 0.1, 0.05, 0.001],
-    'Num_Outliers': [],
-}
-
-# Iterate over contamination values
-for contamination in results['Contamination']:
-
-    # Create Isolation Forest model with specified contamination parameter
-    if contamination == 'auto':
-        # model = IsolationForest(contamination=contamination)
-        model = EllipticEnvelope(contamination=contamination)
-    else:
-        # model = IsolationForest(contamination=contamination, random_state=42)
-        model = EllipticEnvelope(contamination=contamination, random_state=42)
+#     # Create Isolation Forest model with specified contamination parameter
+#     if contamination == 'auto':
+#         # model = IsolationForest(contamination=contamination)
+#         model = EllipticEnvelope(contamination=contamination)
+#     else:
+#         # model = IsolationForest(contamination=contamination, random_state=42)
+#         model = EllipticEnvelope(contamination=contamination, random_state=42)
         
-    # Fit the model
-    # model.fit(df_normalize)
-    # outliers_iso = model.fit_predict(df_normalize)
-    outliers_elliptic = model.fit_predict(df_normalize)
+#     # Fit the model
+#     # model.fit(df_normalize)
+#     # outliers_iso = model.fit_predict(df_normalize)
+#     outliers_elliptic = model.fit_predict(df_normalize)
     
-    # Predict outliers (-1) and inliers (1)
-    predictions = model.predict(df_normalize)
-    # outliers_iso = (outliers_iso == -1)
-    outliers_elliptic = (outliers_elliptic == -1)
+#     # Predict outliers (-1) and inliers (1)
+#     predictions = model.predict(df_normalize)
+#     # outliers_iso = (outliers_iso == -1)
+#     outliers_elliptic = (outliers_elliptic == -1)
     
-    # Calculate number of outliers
-    num_outliers = (predictions == -1).sum()
-    results['Num_Outliers'].append(num_outliers)
-    visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_elliptic, str(contamination) + "elliptic.png")
+#     # Calculate number of outliers
+#     num_outliers = (predictions == -1).sum()
+#     results['Num_Outliers'].append(num_outliers)
+#     visualize_cluster(reduced_data_pca[:, 0], reduced_data_pca[:, 1], outliers_elliptic, str(contamination) + "elliptic.png")
     
 
-# Create DataFrame
-results_df = pd.DataFrame(results)
+# # Create DataFrame
+# results_df = pd.DataFrame(results)
 
-# Print the results DataFrame
-print(results_df)
+# # Print the results DataFrame
+# print(results_df)
 
 
 # Reserve train.csv and test.csv for Benchmarking.
