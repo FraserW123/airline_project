@@ -1,0 +1,15 @@
+LGBM (Recall)
+Accuracy Score: 0.6069473909782492
+Cross Validation value is  0.6567901234567901
+[[1017  578]
+ [ 147  258]]
+              precision    recall  f1-score   support
+
+           0       0.87      0.64      0.74      1595
+           1       0.31      0.64      0.42       405
+
+    accuracy                           0.64      2000
+   macro avg       0.59      0.64      0.58      2000
+weighted avg       0.76      0.64      0.67      2000
+
+ROC 0.6373272959479857

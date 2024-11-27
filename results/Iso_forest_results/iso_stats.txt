@@ -1,0 +1,131 @@
+Standard Scaler
+Random Forest
+0.8316091954022988
+Cross Validation value is  0.8304597701149425
+[[1443    6]
+ [ 287    4]]
+              precision    recall  f1-score   support
+
+         0.0       0.83      1.00      0.91      1449
+         1.0       0.40      0.01      0.03       291
+
+    accuracy                           0.83      1740
+   macro avg       0.62      0.50      0.47      1740
+weighted avg       0.76      0.83      0.76      1740
+
+0.5048024588589357
+
+KNN
+0.8086206896551724
+Cross Validation value is  0.8126436781609195
+[[1383   66]
+ [ 267   24]]
+              precision    recall  f1-score   support
+
+         0.0       0.84      0.95      0.89      1449
+         1.0       0.27      0.08      0.13       291
+
+    accuracy                           0.81      1740
+   macro avg       0.55      0.52      0.51      1740
+weighted avg       0.74      0.81      0.76      1740
+
+0.5184627862799086
+
+SVM
+0.6436781609195402
+Cross Validation value is  0.6706896551724137
+[[951 498]
+ [122 169]]
+              precision    recall  f1-score   support
+
+         0.0       0.89      0.66      0.75      1449
+         1.0       0.25      0.58      0.35       291
+
+    accuracy                           0.64      1740
+   macro avg       0.57      0.62      0.55      1740
+weighted avg       0.78      0.64      0.69      1740
+
+0.6185353567693326
+
+LGBM
+0.6718390804597701
+Cross Validation value is  0.735632183908046
+[[1023  426]
+ [ 145  146]]
+              precision    recall  f1-score   support
+
+         0.0       0.88      0.71      0.78      1449
+         1.0       0.26      0.50      0.34       291
+
+    accuracy                           0.67      1740
+   macro avg       0.57      0.60      0.56      1740
+weighted avg       0.77      0.67      0.71      1740
+
+0.6038611769225843
+
+
+
+MinMax Scaler
+Random Forest
+0.8304597701149425
+Cross Validation value is  0.8304597701149424
+[[1443    6]
+ [ 289    2]]
+              precision    recall  f1-score   support
+
+         0.0       0.83      1.00      0.91      1449
+         1.0       0.25      0.01      0.01       291
+
+    accuracy                           0.83      1740
+   macro avg       0.54      0.50      0.46      1740
+weighted avg       0.74      0.83      0.76      1740
+
+0.5013660327420973
+
+KNN
+0.8103448275862069
+Cross Validation value is  0.8137931034482758
+[[1384   65]
+ [ 265   26]]
+              precision    recall  f1-score   support
+
+         0.0       0.84      0.96      0.89      1449
+         1.0       0.29      0.09      0.14       291
+
+    accuracy                           0.81      1740
+   macro avg       0.56      0.52      0.51      1740
+weighted avg       0.75      0.81      0.77      1740
+
+0.522244277959204
+
+SVM
+0.6028735632183908
+Cross Validation value is  0.6264367816091954
+[[867 582]
+ [109 182]]
+              precision    recall  f1-score   support
+
+         0.0       0.89      0.60      0.72      1449
+         1.0       0.24      0.63      0.35       291
+
+    accuracy                           0.60      1740
+   macro avg       0.56      0.61      0.53      1740
+weighted avg       0.78      0.60      0.65      1740
+
+0.611886619282406
+
+LGBM
+0.6706896551724137
+Cross Validation value is  0.743103448275862
+[[1019  430]
+ [ 143  148]]
+              precision    recall  f1-score   support
+
+         0.0       0.88      0.70      0.78      1449
+         1.0       0.26      0.51      0.34       291
+
+    accuracy                           0.67      1740
+   macro avg       0.57      0.61      0.56      1740
+weighted avg       0.77      0.67      0.71      1740
+
+0.6059173407895952

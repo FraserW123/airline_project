@@ -1,0 +1,115 @@
+
+
+Accuracies: [0.795, 0.7815, 0.6325, 0.6705, 0.7975, 0.77, 0.606, 0.6685]
+
+Cross Validations [0.792, 0.767, 0.6094999999999999, 0.7025, 0.7949999999999999, 0.767, 0.5780000000000001, 0.6905]
+
+ROC_AUC [0.5033321722976896, 0.5378652424629436, 0.6074809396648476, 0.6313053910755061, 0.5073493556252177, 0.5260497697279307, 0.6102093734277643, 0.6300514725802083]
+
+Confusion Matrices (Standardized): 
+[[1582   13]
+ [ 399    6]]
+
+[[1511   84]
+ [ 353   52]]
+
+[[1036  559]
+ [ 176  229]]
+
+[[1112  483]
+ [ 176  229]]
+
+Confusion Matrices (MinMax)
+[[1583   12] 
+ [ 396    9]]
+
+[[1493  102]
+ [ 358   47]]
+
+[[962 633]
+ [155 250]]
+
+[[1108  487]
+ [ 176  229]]
+
+Classification Reports (Standardized)
+
+              precision    recall  f1-score   support
+
+           0       0.80      0.99      0.88      1595
+           1       0.32      0.01      0.03       405
+
+    accuracy                           0.79      2000
+   macro avg       0.56      0.50      0.46      2000
+weighted avg       0.70      0.79      0.71      2000
+
+              precision    recall  f1-score   support
+
+           0       0.81      0.95      0.87      1595
+           1       0.38      0.13      0.19       405
+
+    accuracy                           0.78      2000
+   macro avg       0.60      0.54      0.53      2000
+weighted avg       0.72      0.78      0.74      2000
+
+              precision    recall  f1-score   support
+
+           0       0.85      0.65      0.74      1595
+           1       0.29      0.57      0.38       405
+
+    accuracy                           0.63      2000
+   macro avg       0.57      0.61      0.56      2000
+weighted avg       0.74      0.63      0.67      2000
+
+              precision    recall  f1-score   support
+
+           0       0.86      0.70      0.77      1595
+           1       0.32      0.57      0.41       405
+
+    accuracy                           0.67      2000
+   macro avg       0.59      0.63      0.59      2000
+weighted avg       0.75      0.67      0.70      2000
+
+
+
+Classification Reports (MinMax)
+
+              precision    recall  f1-score   support
+
+           0       0.80      0.99      0.89      1595
+           1       0.43      0.02      0.04       405
+
+    accuracy                           0.80      2000
+   macro avg       0.61      0.51      0.46      2000
+weighted avg       0.72      0.80      0.72      2000
+
+              precision    recall  f1-score   support
+
+           0       0.81      0.94      0.87      1595
+           1       0.32      0.12      0.17       405
+
+    accuracy                           0.77      2000
+   macro avg       0.56      0.53      0.52      2000
+weighted avg       0.71      0.77      0.73      2000
+
+              precision    recall  f1-score   support
+
+           0       0.86      0.60      0.71      1595
+           1       0.28      0.62      0.39       405
+
+    accuracy                           0.61      2000
+   macro avg       0.57      0.61      0.55      2000
+weighted avg       0.74      0.61      0.64      2000
+
+              precision    recall  f1-score   support
+
+           0       0.86      0.69      0.77      1595
+           1       0.32      0.57      0.41       405
+
+    accuracy                           0.67      2000
+   macro avg       0.59      0.63      0.59      2000
+weighted avg       0.75      0.67      0.70      2000
+
+
+
+

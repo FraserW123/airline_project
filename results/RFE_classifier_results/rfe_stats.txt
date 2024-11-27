@@ -1,0 +1,73 @@
+Optimal number of features 18
+[ 7 11 12 13 14 21 22]
+Index(['CARRIER_NAME', 'AVG_MONTHLY_PASS_AIRPORT', 'AVG_MONTHLY_PASS_AIRLINE',
+       'FLT_ATTENDANTS_PER_PASS', 'GROUND_SERV_PER_PASS', 'SNOW', 'SNWD'],
+      dtype='object')
+
+MinMax
+
+Random Forest
+0.7935
+Cross Validation value is  0.789
+[[1577   18]
+ [ 395   10]]
+              precision    recall  f1-score   support
+
+           0       0.80      0.99      0.88      1595
+           1       0.36      0.02      0.05       405
+
+    accuracy                           0.79      2000
+   macro avg       0.58      0.51      0.47      2000
+weighted avg       0.71      0.79      0.71      2000
+
+0.5067030457835056
+
+KNN
+0.7715
+Cross Validation value is  0.761
+[[1509   86]
+ [ 371   34]]
+              precision    recall  f1-score   support
+
+           0       0.80      0.95      0.87      1595
+           1       0.28      0.08      0.13       405
+
+    accuracy                           0.77      2000
+   macro avg       0.54      0.52      0.50      2000
+weighted avg       0.70      0.77      0.72      2000
+
+0.5150160609930724
+
+SVM
+0.7975
+Cross Validation value is  0.7975
+[[1595    0]
+ [ 405    0]]
+              precision    recall  f1-score   support
+
+           0       0.80      1.00      0.89      1595
+           1       0.00      0.00      0.00       405
+
+    accuracy                           0.80      2000
+   macro avg       0.40      0.50      0.44      2000
+weighted avg       0.64      0.80      0.71      2000
+
+0.5
+
+LGBM
+0.704
+Cross Validation value is  0.7289999999999999
+[[1213  382]
+ [ 210  195]]
+              precision    recall  f1-score   support
+
+           0       0.85      0.76      0.80      1595
+           1       0.34      0.48      0.40       405
+
+    accuracy                           0.70      2000
+   macro avg       0.60      0.62      0.60      2000
+weighted avg       0.75      0.70      0.72      2000
+
+0.6209915244398002
+
+MinMax Scaler 
