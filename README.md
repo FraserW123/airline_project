@@ -1,15 +1,17 @@
 # Airline Flight Delay Project
-## Dataset Selection:
+## Problem Statement
+Flight delays are a persistent and significant issue in the aviation industry, affecting millions of passengers annually. For travelers, delays lead to inconvenience, missed connections, and disrupted plans, while for airlines, they result in financial losses, operational inefficiencies, and reputational damage. The ability to predict flight delays accurately is crucial, as it enables airlines to optimize scheduling, allocate resources more effectively, and proactively communicate with passengers to minimize inconvenience.
+
+Despite the availability of extensive flight data, predicting delays remains challenging due to the complex interplay of factors such as weather conditions, air traffic congestion, and operational constraints. This project aims to address these challenges by performing multiple data mining task in order to develop a predicitive model that classifies flights as 'on-time' or 'delayed'.
+
+## Dataset Selection
+The dataset chosen is 2019 Airline Delays w/Weather and Airport Detail, sourced from Kaggle:
 
 https://www.kaggle.com/datasets/threnjen/2019-airline-delays-and-cancellations/data
 
-The dataset has almost 6.5 million rows. For better running times, I sampled 10,000 rows from the dataset which will be worked on
+The dataset has almost 6.5 million rows. For better running times, we sampled 10,000 rows from the dataset which will be worked on.
 
-## Data Exploration
-
-The dataset contains 26 columns
-
-Index: 10000 entries, 1866883 to 4201534
+## Exploratory Data Analysis (EDA)
 Data columns (total 26 columns):
 | # | Column                        | Non-Null Count  |Dtype   |  
 |---| ------                        | --------------  |-----   |  
@@ -39,24 +41,12 @@ Data columns (total 26 columns):
 | 23|  SNWD                         |  10000 non-null | float64|
 | 24|  TMAX                         |  10000 non-null | float64|
 | 25|  AWND                         |  10000 non-null | float64|
-dtypes: float64(9), int64(13), object(4)
-memory usage: 2.1+ MB
 
-## Here are some statistics of these featues
+
+
+### Here are some statistics of these featues
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -279,24 +269,20 @@ memory usage: 2.1+ MB
     </tr>
   </tbody>
 </table>
-<p>8 rows × 26 columns</p>
 </div>
 
-### Correlation Heatmap between all features
+### Correlation Heatmap Between All Features
 ![](results/heatmap.png)
-### Correlation between Delayed Flights and Features
+### Correlation Between Delayed Flights and Features
 ![](results/correlation%20bar%20graph.png)
-
-
 ### Data Proportions
 ![](results/delayedproportion.png)
 ### Ontime Flights vs Delayed Flights
 ![](results/flights.png)
-
 ### Departing Airports Delays
 Here is a map of the departing airports in the dataset with the noted frequency of flights being delayed
 ![](results/departing_airport_delays.png)
-The top 5 airports with the most delays are 
+The top 5 airports with the most delays are:
 |DEPARTING_AIRPORT                 | Flight Delays    |
 |----------------------------------|------------------|
 |Atlanta Municipal                 | 109              |
@@ -305,7 +291,131 @@ The top 5 airports with the most delays are
 |Dallas Fort Worth Regional        | 96               |
 |Douglas Municipal                 | 74               |
 
+### TO DO 
+- Discuss key insights drawn from EDA and potential challenges with the
+dataset (e.g., class imbalance, highly correlated features).
 
+## Data Preprocessing
+Our dataset did not include any missing values, so we did not need to perform any data imputation or removal. For the categorical variables we opted to use label encoding over one-hot encoding because the features DEPARTING_AIRPORT and PREVIOUS_AIRPORT contained many unique values. This was not ideal as it created hundreds of additional columns, due to how one-hot coding creates a separate column for each category.
+
+Once our categorical variables were transformed into numerical features, we performed both normalization and standardization separately to test which one performed better during classification. As for the clustering task, we only utilized the normalized data. Data augmnetation was not applicable to our dataset and dimensionality techniques such as PCA or t-SNE were mainly used in visualizing scatter plots, as dimensionality reduction did not make much of a difference when used in classification. 
+
+## Clustering
+The two clustering algorithms that we decided to apply on our dataset was K-Means and Hierarchical Clustering, specifically Agglomerative Clustering.
+
+### K-Means
+- How we decided on the parameter k?
+![](results/kmeans_elbow_method.png)
+![](results/kmeans_sil_score.png)
+![](results/kmeans_pca.png)
+![](results/kmeans_tsne.png)
+
+### Agglomerative Clustering
+- How we decided on the parameter k?
+![](results/dendrogram.png)
+![](results/agglomerative_pca.png)
+![](results/agglomerative_tsne.png)
+
+### Evaluating Clustering Performance
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>K</th>
+      <th>Algorithm</th>
+      <th>Silhouette Score</th>
+      <th>Calinski-Harabasz Index</th>
+      <th>Davies-Bouldin Index</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>3</td>
+      <td>K-Means</td>
+      <td>0.176457</td>
+      <td>1735.869896</td>
+      <td>1.920981</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>3</td>
+      <td>Agglomerative</td>
+      <td>0.164257</td>
+      <td>1607.696503</td>
+      <td>1.935787</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+### TO DO
+- Discuss the appropriateness of the clustering algorithms for your dataset and
+compare their performances.
+
+## Outlier Detection
+The two outlier detection methods we used on our dataset was Isolation Forest and Local Outlier Factor (LOF).
+
+### TO DO
+- Deciding on the contamination parameter. 
+
+### Isolation Forest
+
+![](results/iso_forest_pca.png)
+![](results/iso_forest_tsne.png)
+
+### Local Outlier Factor
+
+![](results/lof_pca.png)
+![](results/lof_tsne.png)
+
+### TO DO
+- Show the differences between classification scores with dataframe with outliers and without outliers.
+
+- Analyze the outliers: Are they noise, or do they contain important
+information? Decide whether to keep or remove them for further analysis.
+
+## Feature Selection
+The feature selection technique we utilized was Recursive Feature Elimination (RFE).
+
+### Importance of Selected Features and Impact on the Classification Task
+- Discuss the importance of selected features and their impact on the
+classification task.
+
+
+### Evaluating Feature Selection Performance
+- Evaluate the model with and without feature selection to compare performance
+and computational efficiency.
+
+
+## Classification 
+The classification algorithms we utilized includes ...
+
+### Evaluating Performance
+
+## Hyperparameter Tuning
+The classifier we performed hyperparamter tuning on is ... using Grid Search.
+
+### Evaluating Performance
+- Compare the performance of the model before and after tuning. Discuss the
+impact of tuning on model performance.
+
+## Conclusion
+
+### TO DO
+- Discuss the insights that you learned about the domain of the dataset
+(e.g., for a rental dataset it could be people’s preference and general taste
+for renting).
+
+- Discuss the lessons learned about data mining methodology.
+
+- Discussions of challenges, limitations, and potential future work.
+
+- The README file in your repository will serve as the primary report. It
+should clearly explain the results of each task, with references to the relevant
+sections of the code.
 
 
 
