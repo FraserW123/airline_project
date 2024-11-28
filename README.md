@@ -1,8 +1,9 @@
 # Airline Flight Delay Project
+## Authors: Nathan Chow, Fraser Wong
 ## Problem Statement
-Flight delays are a persistent and significant issue in the aviation industry, affecting millions of passengers annually. For travelers, delays lead to inconvenience, missed connections, and disrupted plans, while for airlines, they result in financial losses, operational inefficiencies, and reputational damage. The ability to predict flight delays accurately is crucial, as it enables airlines to optimize scheduling, allocate resources more effectively, and proactively communicate with passengers to minimize inconvenience.
+Flight delays are a persistent and significant issue in the aviation industry, affecting millions of passengers annually. For travellers, delays lead to inconvenience, missed connections, and disrupted plans, while for airlines, they result in financial losses, operational inefficiencies, and reputational damage. The ability to predict flight delays accurately is crucial, as it enables airlines to optimize scheduling, allocate resources more effectively, and proactively communicate with passengers to minimize inconvenience.
 
-Despite the availability of extensive flight data, predicting delays remains challenging due to the complex interplay of factors such as weather conditions, air traffic congestion, and operational constraints. This project aims to address these challenges by performing multiple data mining task in order to develop a predicitive model that classifies flights as 'on-time' or 'delayed'.
+Despite the availability of extensive flight data, predicting delays remains challenging due to the complex interplay of factors such as weather conditions, air traffic congestion, and operational constraints. This project aims to address these challenges by performing multiple data mining tasks in order to develop a predictive model that classifies flights as 'on-time' or 'delayed'.
 
 ## Dataset Selection
 The dataset chosen is 2019 Airline Delays w/Weather and Airport Detail, sourced from Kaggle:
@@ -46,10 +47,10 @@ Data columns (total 26 columns):
 ![](results/heatmap.png)
 - AIRPORT_FLIGHTS_MONTH and AVG_MONTHLY_PASS_AIRPORT have the strongest correlation with a value of 0.97, this might indicate redundancy as these features may capture overlapping information about flight frequency.
 - Features like AVG_MONTHLY_PASS_AIRLINE and AVG_MONTHLY_PASS_AIRPORT show moderate correlation with flight-related variables. This suggests a meaningful relationship between the number of passengers and flight frequency or availability.
-- Weather features such as PRCP, SNOW, TMAX, and AWNND show weak correlations with most other features, this might indicate that weather-related factors may play a smaller role in the dataset, or the impact of weather on delay may not be fully captured.
+- Weather features such as PRCP, SNOW, TMAX, and AWND show weak correlations with most other features, this might indicate that weather-related factors may play a smaller role in the dataset, or the impact of weather on delay may not be fully captured.
 ### Correlation Between Delayed Flights and Features
 
-| Column                         |Non-Null Count|  
+|Features                         |Correlation|  
 |---                       | --------------  |
 |DEP_TIME_BLK                     |0.165841|
 |SEGMENT_NUMBER                   |0.110103|
@@ -80,11 +81,11 @@ Data columns (total 26 columns):
 
 ![](results/correlation%20bar%20graph.png)
 
-The two strongest positive correlations between delayed flights and features are DEP_TIME_BLK and SEGMENT_NUMBER. Both these features are temporal aspects as DEP_TIME_BLK represents the distance group to be flown by departing aircraft and SEGMENT_NUMBER represents the segment that this tail number is on for the day. This might indicate that the time of departure is a key factor affecting delays. For instance, certain time blocks might experience higher congestion and delays.
+The two strongest positive correlations between delayed flights and features are DEP_TIME_BLK and SEGMENT_NUMBER. Both these features are temporal aspects as DEP_TIME_BLK represents the distance group to be flown by departing aircraft and SEGMENT_NUMBER represents the segment that this tail number is on for the day. This might indicate that the departure time is a key factor affecting delays. For instance, certain time blocks might experience higher congestion and delays.
 ### Data Proportions
 ![](results/delayedproportion.png)
 
-The pie chart shows that 80.7% of the data is 'on-time' and only 19.3% is 'delayed' this clearly shows a skewed distribution. This indicates that the dataset is imbalanced, which can present challenges for classification models. Models trained on this dataset may become biased toward predicting the majority class ('on-time') because it dominates the training data. This can result in high accuracy but poor recall for the minority class ('delayed') and also misleading metrics like accuracy. 
+The pie chart shows that 80.7% of the data is 'on-time' and only 19.3% is 'delayed', clearly showing a skewed distribution. This indicates that the dataset is imbalanced, which can present challenges for classification models. Models trained on this dataset may become biased toward predicting the majority class ('on-time) because it dominates the training data. This can result in high accuracy but poor recall for the minority class ('delayed') and misleading metrics like accuracy. 
 ### Ontime Flights vs Delayed Flights
 ![](results/flights.png)
 ### Departing Airports Delays
@@ -99,29 +100,31 @@ The top 5 airports with the most delays are:
 |Dallas Fort Worth Regional        | 96               |
 |Douglas Municipal                 | 74               |
 
+**Relevant Section of Code: main_plots.ipynb**
 ## Data Preprocessing
-Our dataset did not include any missing values, so we did not need to perform any data imputation or removal. For the categorical variables we opted to use label encoding over one-hot encoding because the features DEPARTING_AIRPORT and PREVIOUS_AIRPORT contained many unique values. This was not ideal as it created hundreds of additional columns, due to how one-hot coding creates a separate column for each category.
+Our dataset did not include any missing values, so we did not need to perform any data imputation or removal. For the categorical variables, we opted to use label encoding over one-hot encoding because the features DEPARTING_AIRPORT and PREVIOUS_AIRPORT contained many unique values. This was not ideal as it created hundreds of additional columns, due to how one-hot coding creates a separate column for each category.
 
-Once our categorical variables were transformed into numerical features, we performed both normalization and standardization separately to test which one performed better during classification. As for the clustering task, we only utilized the normalized data. Data augmnetation was not applicable to our dataset and dimensionality techniques such as PCA or t-SNE were mainly used in visualizing scatter plots, as dimensionality reduction did not make much of a difference when used in classification. 
+Once our categorical variables were transformed into numerical features, we performed both normalization and standardization separately to test which one performed better during classification. As for the clustering task, we only utilized the normalized data. Data augmentation did not apply to our dataset and dimensionality techniques such as PCA or t-SNE were mainly used in visualizing scatter plots, as dimensionality reduction did not make much of a difference when used in classification. 
 
 **Relevant Section of Code: main_classifiers.ipynb**
 
+
 ## Clustering
-The two clustering algorithms that we decided to apply on our dataset was K-Means and Hierarchical Clustering, specifically Agglomerative Clustering.
+The two clustering algorithms that we decided to apply to our dataset were K-Means and Hierarchical Clustering, specifically Agglomerative Clustering.
 
 ### K-Means
-Deciding on the best parameter k we first fit K-Means for a range of values from 2 to 10. In each fit we appended the inertia and silhouette score for each value of k to their respective list. We then plotted the values on a plot to compare each value of k. 
+Deciding on the best parameter k we first fit K-Means for a range of values from 2 to 10. In each fit, we appended the inertia and silhouette score for each value of k to their respective list. We then plotted the values on a plot to compare each value of k. 
 
-Inertia is the sum of squared distances between each data point and the centroid of its assigned cluster. It measures how tightly the data points are grouped within each cluster. Lower inertia indicates that points are closer to their cluster centers. Analyzing the inertia values on the plot we can use the elbow method, which looks for the "elbow point" in the curve. This is where the rate of decrease in inertia slows significantly. Before the elbow, adding clusters reduces inertia significantly because clusters better fit the data. While adding clusters after the elbow provides diminishing returns, as clusters become overly specific or redundant. This is why selecting the "elbow point" makes a good parameter for k as it balances good clustering performance with model simplicity. From the plot "K-Means Elbow Method" we can see that the elbow method suggests the "elbow" point for this data appears at k=3, because the largest decrease occurs between k=2 and k=3. 
+Inertia is the sum of squared distances between each data point and the centroid of its assigned cluster. It measures how tightly the data points are grouped within each cluster. Lower inertia indicates that points are closer to their cluster centers. Analyzing the inertia values on the plot we can use the elbow method, which looks for the "elbow point" in the curve. This is where the rate of decrease in inertia slows significantly. Before the elbow, adding clusters reduces inertia significantly because clusters better fit the data. While adding clusters after the elbow provides diminishing returns, as clusters become overly specific or redundant. This is why selecting the "elbow point" makes a good parameter for k as it balances good clustering performance with model simplicity. From the plot "K-Means Elbow Method" we can see that the elbow method suggests the "elbow" point for this data appears at k=3 because the largest decrease occurs between k=2 and k=3. 
 
-To confirm the value of k, we used the silhouette score to evaluate the quality of clustering, as it measures how similar each data point is to its own cluster compared to other clusters. A higher silhouette score indicates better defined clusters, so looking at the plot "Silhouette Score for Different K" we can choose where the score peaks, as it represents the best separation of clusters. The peak is indicated at k=3 as well, confirming our value of k.
+To confirm the value of k, we used the silhouette score to evaluate the quality of clustering, as it measures how similar each data point is to its own cluster compared to other clusters. A higher silhouette score indicates better-defined clusters, so looking at the plot "Silhouette Score for Different K" we can choose where the score peaks, as it represents the best separation of clusters. The peak is indicated at k=3 as well, confirming our value of k.
 ![](results/kmeans_elbow_method.png)
 ![](results/kmeans_sil_score.png)
 ![](results/kmeans_pca.png)
 ![](results/kmeans_tsne.png)
 
 ### Agglomerative Clustering
-For Agglomerative Clustering we plotted the dendrogram to decide on an appropriate value of k. The dendrogram suggest that k=3, because there are three large vertical gaps in the upper levels of the tree, the blue line at the top shows the largest merges, and splits off into three main groups. 
+For Agglomerative Clustering, we plotted the dendrogram to decide on an appropriate value of k. The dendrogram suggests that k=3 because there are three large vertical gaps in the upper levels of the tree, the blue line at the top shows the largest merges, and splits off into three main groups. 
 ![](results/dendrogram.png)
 ![](results/agglomerative_pca.png)
 ![](results/agglomerative_tsne.png)
@@ -161,12 +164,12 @@ For Agglomerative Clustering we plotted the dendrogram to decide on an appropria
 </table>
 </div>
 
-Comparing the two clustering algorithms performance we can see that K-Means has a better performance across all three metrics, making it the preferred algorithm for this dataset. The Calinski-Harabasz Index is relatively higher than Agglomerative clustering, indicating better defined cluster separation and compactness, while the Davies-Bouldin Index is slightly lower suggesting that K-Means produced more distinct and compact clusters. However, both clustering algorithms show relatively low silhouette scores, which might indicate that the dataset does not have well-defined cluster boundaries or that there may be a better value for k. For future tests, experimenting with other algorithms such as DBSCAN or Gaussian Mixture Models (GMM) may capture more complex cluster shapes or densities. Additionally, testing different linkage methods for Agglomerative Clustering may improve results.
+Comparing the two clustering algorithms performance we can see that K-Means has a better performance across all three metrics, making it the preferred algorithm for this dataset. The Calinski-Harabasz Index is relatively higher than Agglomerative clustering, indicating better-defined cluster separation and compactness, while the Davies-Bouldin Index is slightly lower suggesting that K-Means produced more distinct and compact clusters. However, both clustering algorithms show relatively low silhouette scores, which might indicate that the dataset does not have well-defined cluster boundaries or that there may be a better value for k. For future tests, experimenting with other algorithms such as DBSCAN or Gaussian Mixture Models (GMM) may capture more complex cluster shapes or densities. Additionally, testing different linkage methods for Agglomerative Clustering may improve results.
 
 **Relevant Section of Code: main_clusters.ipynb**
 
 ## Outlier Detection
-The two outlier detection methods we used on our dataset was Isolation Forest and Local Outlier Factor (LOF). Outlier methods require a parameter called contamination, this parameter specifies the proportion of the dataset that is expected to be outliers. It essentially informs the algorithm about how many data points should be flagged as anomalies. To obtain an approximation of the fraction of anomalous data points in the dataset the estimate for contamination is calculated by dividing the total number of outliers by the total number of samples. The number of outliers was obtained by calculating the absolute value for z-score and marking any data point that was greater than 3 as an anomalous data point. This gave us a estimated contamination value of 0.13.
+The two outlier detection methods we used on our dataset were Isolation Forest and Local Outlier Factor (LOF). Outlier methods require a parameter called contamination, this parameter specifies the proportion of the dataset that is expected to be outliers. It essentially informs the algorithm about how many data points should be flagged as anomalies. To obtain an approximation of the fraction of anomalous data points in the dataset the estimate for contamination is calculated by dividing the total number of outliers by the total number of samples. The number of outliers was obtained by calculating the absolute value for z-score and marking any data point that was greater than 3 as an anomalous data point. This gave us an estimated contamination value of 0.13.
 
 ### Isolation Forest
 
@@ -179,7 +182,7 @@ The two outlier detection methods we used on our dataset was Isolation Forest an
 ![](results/lof_tsne.png)
 
 
-After performing classification algorithms on the dataset with outliers and without outliers we found that the results from keeping the outliers in the dataset had better performance (Refer to classification section for results). From this information we can consider that the outliers contain information and keep them for further analysis.
+After performing classification algorithms on the dataset with outliers and without outliers we found that the results from keeping the outliers in the dataset had better performance (Refer to classification section for results). From this information, we can consider that the outliers contain information and keep them for further analysis.
 
 **Relevant Section of Code: main_clusters.ipynb**
 - Contains code for outlier plots
@@ -199,17 +202,17 @@ The feature selection technique we employed was Recursive Feature Elimination (R
 |AVG_MONTHLY_PASS_AIRLINE|
 
 **Relevant Section of Code: main_classifiers.ipynb**
-- Contains code for run_rfe function
+- Contains code for the run_rfe function
 
 
 ## Classification 
  
-Our team of two tested four classification models—Random Forests, KNN, SVM, and LightGBM—and evaluated their performance. To ensure a comprehensive analysis, we first ran the models with outliers included, then re-ran them after applying two different outlier detection methods. We evaluated these models using accuracy scores, cross-validation, f-1 scores and ROC curves. Based on this evaluation, we selected the best-performing model for hyperparameter tuning to further optimize its performance. 
+Our team of two tested four classification models—Random Forests, KNN, SVM, and LightGBM—and evaluated their performance. To ensure a comprehensive analysis, we first ran the models with outliers included and then re-ran them after applying two different outlier detection methods. We evaluated these models using accuracy scores, cross-validation, f-1 scores and ROC curves. Based on this evaluation, we selected the best-performing model for hyperparameter tuning to further optimize its performance. 
 
 ### Evaluating Performance
 Here are the results of our models. 
 
-Weighted
+Weighted Models
 -------------------------------------------------------------------------
 |Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
 |--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
@@ -228,12 +231,12 @@ Weighted
 ![](results/Weighted_classifier_results/weighted%20confusion%20matrices.png)
 
 ### Impact of Scaling Methods. 
-Standard Scaler and Min-Max scaler produced similar patterns across most models, with slight variations in performance. For the Random Forest models, both scalers yielded high on-time recall (0.99), but delayed recall was extremely low (0.01-0.02), suggesting that the model struggles with the minority class regardless of scaling. For LightGBM, the AUC scores were slightly higher with the Standard Scaler (0.631 vs 0.630), indicating marginally better class separation.
+The Standard Scaler and Min-Max scaler produced similar patterns across most models, with slight variations in performance. For the Random Forest models, both scalers yielded high on-time recall (0.99), but delayed recall was extremely low (0.01-0.02), suggesting that the model struggles with the minority class regardless of scaling. For LightGBM, the AUC scores were slightly higher with the Standard Scaler (0.631 vs 0.630), indicating marginally better class separation.
 
 ### Performance on Delayed Flights
 LightGBM consistently achieved the highest balance between delayed precision (0.32) and recall (0.57) under both scaling methods, resulting in higher AUC scores (0.631 and 0.630). This highlights its potential for minority class prediction. 
 
-KNN achieved slightly better delayed precision (0.38 with Standard Scaler), but its recall (0.13) was low, limiting its utility for detecting delayed flights.
+KNN achieved slightly better-delayed precision (0.38 with Standard Scaler), but its recall (0.13) was low, limiting its utility for detecting delayed flights.
 
 SVM showed notable improvement in delayed recall compared to other models, especially under Standard Scaler (0.57). However, its lower overall accuracy (0.6325) suggests a trade-off in general performance. 
 
@@ -249,7 +252,7 @@ Random Forest consistently achieved the highest accuracy (0.795–0.7975), drive
 
 KNN offered balanced accuracy (0.77–0.7815) and cross-validation scores (0.767) but struggled with delayed recall, suggesting room for improvement in handling minority classes.
 
-SVM achieved lower accuracy than the previous 2 models (0.606-0.6325), but showed potential for delayed flight detection with relatively high recall (0.57) and decent AUC scores (0.607–0.610).
+SVM achieved lower accuracy than the previous 2 models (0.606-0.6325) but showed potential for delayed flight detection with relatively high recall (0.57) and decent AUC scores (0.607–0.610).
 
 LightGBM, despite lower accuracy (0.6685–0.6705), demonstrated better AUC scores (0.630–0.631), highlighting its ability to balance performance across both classes. This makes it a strong candidate for scenarios prioritizing minority class predictions.
 
@@ -330,7 +333,7 @@ LightGBM provided the most balanced performance, achieving moderate precision an
 
 **Relevant Section of Code: main_classifiers.ipynb**
 ## Hyperparameter Tuning
-The classifier we performed hyperparamter tuning on is the LGBM classifier since it showed strong results in minority class recall, while maintaining decent overall accuracy of the majority class. We used Grid Search method to find the best parameters among the following params to find the highest recall performance.
+The classifier we performed hyperparameter tuning on is the LGBM classifier since it showed strong results in minority class recall while maintaining decent overall accuracy of the majority class. We used GridSearch method to find the best parameters among the following parameters to find the highest recall performance.
 ```
 param_grid = {
         'num_leaves': [31, 127],
@@ -351,7 +354,7 @@ Chosen Params: {'lambda_l1': 1.5, 'lambda_l2': 1, 'min_data_in_leaf': 400, 'num_
 ```
 
 The chosen parameters (lambda_l1=1.5, lambda_l2=1, min_data_in_leaf=400, num_leaves=31, and reg_alpha=0.1) suggest that the model prioritized strong regularization and a conservative leaf structure. These settings aim to prevent overfitting by limiting tree complexity and controlling leaf size.
-The smaller num_leaves value (31) keeps the model simple, while min_data_in_leaf=400 ensures that splits occur only when there is substantial data to support them, favoring generalization over precision in edge cases.
+The smaller num_leaves value (31) keeps the model simple, while min_data_in_leaf=400 ensures that splits occur only when there is substantial data to support them, favouring generalization over precision in edge cases.
 
 
 ### Hyperparameter Tuning Performance
@@ -367,7 +370,7 @@ Here are the results of the hyperparameter tuning. We were specifically trying t
 ![](results/Hyper_parameter_results/grid_search%20confusion.png)
 
 ### Evaluating Performance
-The tuned model achieved an AUC score of 0.637, indicating better class separation than earlier iterations of LightGBM, where AUC scores ranged around 0.604–0.631. This reflects the model’s improved ability to distinguish between on-time and delayed flights. The delayed recall (0.64) improved over the previous LightGBM runs while the delayed precison remained consistent, highlighting the model is now better at detecting delayed flights but still produces false positives at a pretty high rate. The ontime recall got worse (0.64), reflecting a slight tradeoff, with the model showing increased conservativeness in predicting on-time flights, reducing over-prediction of the majority class. Ultimately, the GridSearch method did improve the performance of the LightGBM model, but the low delay precision suggests that the class imbalance still poses a challenge for the model.  
+The tuned model achieved an AUC score of 0.637, indicating better class separation than earlier iterations of LightGBM, where AUC scores ranged around 0.604–0.631. This reflects the model’s improved ability to distinguish between on-time and delayed flights. The delayed recall (0.64) improved over the previous LightGBM runs while the delayed precision remained consistent, highlighting the model is now better at detecting delayed flights but still produces false positives at a pretty high rate. The ontime recall got worse (0.64), reflecting a slight tradeoff, with the model showing increased conservativeness in predicting on-time flights, reducing over-prediction of the majority class. Ultimately, the GridSearch method did improve the performance of the LightGBM model, but the low delay precision suggests that the class imbalance still poses a challenge for the model.  
 
 **Relevant Section of Code: main_classifiers.ipynb**
 
@@ -377,10 +380,10 @@ The tuned model achieved an AUC score of 0.637, indicating better class separati
 This project reinforced several core steps in data mining methodology. First, the importance of data preprocessing became clear, as transforming numerical features and categorical  variables into a format suitable for analysis was crucial for obtaining meaningful results. Additionally, the effectiveness of clustering algorithms in uncovering hidden patterns was evident, demonstrating the value of unsupervised learning methods in exploratory data analysis. Finally, the need for careful evaluation of model performance was highlighted, as simple classification models often failed to capture the complexity of our dataset, urging the use of more sophisticated methods such as feature selection techniques and hyperparameter tuning.
 
 ### Challenges, Limitations, and Future Work
-While the results from clustering and classification models were insightful, several challenges and limitations were encountered throughout the course of the project. One of the key challenges we found in our EDA was the imbalance in the dataset, with approximately 81% of the flights labeled as 'on-time' and only 19% as 'delayed'. This class imbalance introduced bias in model training, as the model may have become biased towards predicting the majority class ('ontime') more frequently, leading to a poor performance in detecting delayed flights. The complexity of flight delays, influenced by a multitude of unpredictable variables, also hindered the performance of the models. Future work on the project could involve integrating additional data sources to improve prediction accuracy or focussing on analyzing the temporal aspects of flight delays to further refine the models. Furthermore, exploring deep learning techniques or ensemble methods could potentially yield better results for predicting delays.
+While the results from clustering and classification models were insightful, several challenges and limitations were encountered throughout the course of the project. One of the key challenges we found in our EDA was the imbalance in the dataset, with approximately 81% of the flights labelled as 'on-time' and only 19% as 'delayed'. This class imbalance introduced bias in model training, as the model may have become biased towards predicting the majority class ('ontime') more frequently, leading to a poor performance in detecting delayed flights. The complexity of flight delays, influenced by a multitude of unpredictable variables, also hindered the performance of the models. Future work on the project could involve integrating additional data sources to improve prediction accuracy or focusing on analyzing the temporal aspects of flight delays to further refine the models. Furthermore, exploring deep learning techniques or ensemble methods could potentially yield better results for predicting delays.
 
 ### Final Insights
-Working with the flight delay dataset, we have learned that classifying flight delays into 'on-time' and 'delayed' categories is more complex than initially expected. Despite using a variety of classification models, hyperparameter tuning and outlier detection techniques, we were unable to achieve a model capable of reliably identifying delayed flights with high accuracy or precision. This outcome underscores two significant challenges: the class imbalance in the dataset, where on-time flights vastly outnumber delays, and the general unpredictable nature of flight delays, which are influenced by external factors such as weather, air traffic, and operational disruptions. Overall we enjoyed working on this project, especially designing the graphs and figures that best describe the behaviour of the data. This was an interesting project that allowed use to apply what we learned in class to a real-life dataset, and even though model performances were not ideal, it was a great learning experience. 
+Working with the flight delay dataset, we have learned that classifying flight delays into 'on-time' and 'delayed' categories is more complex than initially expected. Despite using a variety of classification models, hyperparameter tuning and outlier detection techniques, we were unable to achieve a model capable of reliably identifying delayed flights with high accuracy or precision. This outcome underscores two significant challenges: the class imbalance in the dataset, where on-time flights vastly outnumber delays, and the general unpredictable nature of flight delays, which are influenced by external factors such as weather, air traffic, and operational disruptions. Overall we enjoyed working on this project, especially designing the graphs and figures that best describe the behaviour of the data. This was an interesting project that allowed us to apply what we learned in class to a real-life dataset, and even though model performances were not ideal, it was a great learning experience. 
 
 
 
