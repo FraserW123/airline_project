@@ -42,235 +42,6 @@ Data columns (total 26 columns):
 | 24|  TMAX                         |  10000 non-null | float64|
 | 25|  AWND                         |  10000 non-null | float64|
 
-
-
-### Here are some statistics of these featues
-<div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>MONTH</th>
-      <th>DAY_OF_WEEK</th>
-      <th>DEP_DEL15</th>
-      <th>DEP_TIME_BLK</th>
-      <th>DISTANCE_GROUP</th>
-      <th>SEGMENT_NUMBER</th>
-      <th>CONCURRENT_FLIGHTS</th>
-      <th>NUMBER_OF_SEATS</th>
-      <th>CARRIER_NAME</th>
-      <th>AIRPORT_FLIGHTS_MONTH</th>
-      <th>...</th>
-      <th>PLANE_AGE</th>
-      <th>DEPARTING_AIRPORT</th>
-      <th>LATITUDE</th>
-      <th>LONGITUDE</th>
-      <th>PREVIOUS_AIRPORT</th>
-      <th>PRCP</th>
-      <th>SNOW</th>
-      <th>SNWD</th>
-      <th>TMAX</th>
-      <th>AWND</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>...</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-      <td>10000.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>6.634800</td>
-      <td>3.927900</td>
-      <td>0.193400</td>
-      <td>8.231900</td>
-      <td>3.843400</td>
-      <td>3.049100</td>
-      <td>27.765400</td>
-      <td>133.974900</td>
-      <td>9.111100</td>
-      <td>12640.642100</td>
-      <td>...</td>
-      <td>11.552000</td>
-      <td>42.881500</td>
-      <td>36.728235</td>
-      <td>-94.237052</td>
-      <td>154.376000</td>
-      <td>0.106784</td>
-      <td>0.028970</td>
-      <td>0.101060</td>
-      <td>71.490100</td>
-      <td>8.306849</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>3.413385</td>
-      <td>1.989296</td>
-      <td>0.394984</td>
-      <td>4.898584</td>
-      <td>2.381353</td>
-      <td>1.759318</td>
-      <td>21.403191</td>
-      <td>46.559062</td>
-      <td>5.129248</td>
-      <td>8810.857618</td>
-      <td>...</td>
-      <td>6.927185</td>
-      <td>27.093569</td>
-      <td>5.552612</td>
-      <td>17.871948</td>
-      <td>72.541372</td>
-      <td>0.343852</td>
-      <td>0.307371</td>
-      <td>0.779256</td>
-      <td>18.198885</td>
-      <td>3.605541</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>1.000000</td>
-      <td>44.000000</td>
-      <td>0.000000</td>
-      <td>1100.000000</td>
-      <td>...</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>19.739000</td>
-      <td>-159.346000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>-10.000000</td>
-      <td>0.450000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>4.000000</td>
-      <td>2.000000</td>
-      <td>0.000000</td>
-      <td>4.000000</td>
-      <td>2.000000</td>
-      <td>2.000000</td>
-      <td>11.000000</td>
-      <td>90.000000</td>
-      <td>5.000000</td>
-      <td>5337.000000</td>
-      <td>...</td>
-      <td>5.000000</td>
-      <td>17.000000</td>
-      <td>33.436000</td>
-      <td>-106.377000</td>
-      <td>99.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>59.000000</td>
-      <td>5.820000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>7.000000</td>
-      <td>4.000000</td>
-      <td>0.000000</td>
-      <td>8.000000</td>
-      <td>3.000000</td>
-      <td>3.000000</td>
-      <td>23.000000</td>
-      <td>143.000000</td>
-      <td>10.000000</td>
-      <td>11588.000000</td>
-      <td>...</td>
-      <td>12.000000</td>
-      <td>42.000000</td>
-      <td>37.363000</td>
-      <td>-87.906000</td>
-      <td>182.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>74.000000</td>
-      <td>7.830000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>10.000000</td>
-      <td>6.000000</td>
-      <td>0.000000</td>
-      <td>12.000000</td>
-      <td>5.000000</td>
-      <td>4.000000</td>
-      <td>39.000000</td>
-      <td>172.000000</td>
-      <td>14.000000</td>
-      <td>17522.000000</td>
-      <td>...</td>
-      <td>17.000000</td>
-      <td>66.000000</td>
-      <td>40.779000</td>
-      <td>-80.936000</td>
-      <td>203.000000</td>
-      <td>0.030000</td>
-      <td>0.000000</td>
-      <td>0.000000</td>
-      <td>86.000000</td>
-      <td>10.290000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>12.000000</td>
-      <td>7.000000</td>
-      <td>1.000000</td>
-      <td>18.000000</td>
-      <td>11.000000</td>
-      <td>13.000000</td>
-      <td>108.000000</td>
-      <td>337.000000</td>
-      <td>16.000000</td>
-      <td>35256.000000</td>
-      <td>...</td>
-      <td>32.000000</td>
-      <td>94.000000</td>
-      <td>61.169000</td>
-      <td>-70.304000</td>
-      <td>291.000000</td>
-      <td>11.630000</td>
-      <td>9.900000</td>
-      <td>18.900000</td>
-      <td>115.000000</td>
-      <td>33.780000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
 ### Correlation Heatmap Between All Features
 ![](results/heatmap.png)
 ### Correlation Between Delayed Flights and Features
@@ -300,18 +71,24 @@ Our dataset did not include any missing values, so we did not need to perform an
 
 Once our categorical variables were transformed into numerical features, we performed both normalization and standardization separately to test which one performed better during classification. As for the clustering task, we only utilized the normalized data. Data augmnetation was not applicable to our dataset and dimensionality techniques such as PCA or t-SNE were mainly used in visualizing scatter plots, as dimensionality reduction did not make much of a difference when used in classification. 
 
+**Relevant Section of Code: main_classifiers.ipynb**
+
 ## Clustering
 The two clustering algorithms that we decided to apply on our dataset was K-Means and Hierarchical Clustering, specifically Agglomerative Clustering.
 
 ### K-Means
-- How we decided on the parameter k?
+Deciding on the best parameter k we first fit K-Means for a range of values from 2 to 10. In each fit we appended the inertia and silhouette score for each value of k to their respective list. We then plotted the values on a plot to compare each value of k. 
+
+Inertia is the sum of squared distances between each data point and the centroid of its assigned cluster. It measures how tightly the data points are grouped within each cluster. Lower inertia indicates that points are closer to their cluster centers. Analyzing the inertia values on the plot we can use the elbow method, which looks for the "elbow point" in the curve. This is where the rate of decrease in inertia slows significantly. Before the elbow, adding clusters reduces inertia significantly because clusters better fit the data. While adding clusters after the elbow provides diminishing returns, as clusters become overly specific or redundant. This is why selecting the "elbow point" makes a good parameter for k as it balances good clustering performance with model simplicity. From the plot "K-Means Elbow Method" we can see that the elbow method suggests the "elbow" point for this data appears at k=3, because the largest decrease occurs between k=2 and k=3. 
+
+To confirm the value of k, we used the silhouette score to evaluate the quality of clustering, as it measures how similar each data point is to its own cluster compared to other clusters. A higher silhouette score indicates better defined clusters, so looking at the plot "Silhouette Score for Different K" we can choose where the score peaks, as it represents the best separation of clusters. The peak is indicated at k=3 as well, confirming our value of k.
 ![](results/kmeans_elbow_method.png)
 ![](results/kmeans_sil_score.png)
 ![](results/kmeans_pca.png)
 ![](results/kmeans_tsne.png)
 
 ### Agglomerative Clustering
-- How we decided on the parameter k?
+For Agglomerative Clustering we plotted the dendrogram to decide on an appropriate value of k. The dendrogram suggest that k=3, because there are three large vertical gaps in the upper levels of the tree, the blue line at the top shows the largest merges, and splits off into three main groups. 
 ![](results/dendrogram.png)
 ![](results/agglomerative_pca.png)
 ![](results/agglomerative_tsne.png)
@@ -351,15 +128,12 @@ The two clustering algorithms that we decided to apply on our dataset was K-Mean
 </table>
 </div>
 
-### TO DO
-- Discuss the appropriateness of the clustering algorithms for your dataset and
-compare their performances.
+Comparing the two clustering algorithms performance we can see that K-Means has a better performance across all three metrics, making it the preferred algorithm for this dataset. The Calinski-Harabasz Index is relatively higher than Agglomerative clustering, indicating better defined cluster separation and compactness, while the Davies-Bouldin Index is slightly lower suggesting that K-Means produced more distinct and compact clusters. However, both clustering algorithms show relatively low silhouette scores, which might indicate that the dataset does not have well-defined cluster boundaries or that there may be a better value for k. For future tests, experimenting with other algorithms such as DBSCAN or Gaussian Mixture Models (GMM) may capture more complex cluster shapes or densities. Additionally, testing different linkage methods for Agglomerative Clustering may improve results.
+
+**Relevant Section of Code: main_clusters.ipynb**
 
 ## Outlier Detection
-The two outlier detection methods we used on our dataset was Isolation Forest and Local Outlier Factor (LOF).
-
-### TO DO
-- Deciding on the contamination parameter. 
+The two outlier detection methods we used on our dataset was Isolation Forest and Local Outlier Factor (LOF). Outlier methods require a parameter called contamination, this parameter specifies the proportion of the dataset that is expected to be outliers. It essentially informs the algorithm about how many data points should be flagged as anomalies. To obtain an approximation of the fraction of anomalous data points in the dataset the estimate for contamination is calculated by dividing the total number of outliers by the total number of samples. The number of outliers was obtained by calculating the absolute value for z-score and marking any data point that was greater than 3 as an anomalous data point. This gave us a estimated contamination value of 0.13.
 
 ### Isolation Forest
 
@@ -371,11 +145,14 @@ The two outlier detection methods we used on our dataset was Isolation Forest an
 ![](results/lof_pca.png)
 ![](results/lof_tsne.png)
 
-### TO DO
-- Show the differences between classification scores with dataframe with outliers and without outliers.
 
-- Analyze the outliers: Are they noise, or do they contain important
-information? Decide whether to keep or remove them for further analysis.
+After performing classification algorithms on the dataset with outliers and without outliers we found that the results from keeping the outliers in the dataset had better performance (Refer to classification section for results). From this information we can consider that the outliers contain information and keep them for further analysis.
+
+**Relevant Section of Code: main_clusters.ipynb**
+- Contains code for outlier plots
+
+**Relevant Section of Code: main_classifiers.ipynb**
+- Contains code for classification comparison
 
 ## Feature Selection
 The feature selection technique we utilized was Recursive Feature Elimination (RFE).
@@ -402,6 +179,8 @@ Recursive Feature Selection Results
 
 ### Confusion Matrices
 ![](results/RFE_classifier_results/rfe%20confusion%20matrix.png)
+
+**Relevant Section of Code: main_classifiers.ipynb**
 
 ## Classification 
  
@@ -465,6 +244,7 @@ Weighted LOF
 ### Confusion Matrix
 ![](results/LOF%20Results/lof%20confusion.png)
 
+**Relevant Section of Code: main_classifiers.ipynb**
 
 ## Hyperparameter Tuning
 The classifier we performed hyperparamter tuning on is ... using Grid Search.
@@ -481,6 +261,8 @@ Hyperparameter Tuning
 - Compare the performance of the model before and after tuning. Discuss the
 impact of tuning on model performance.
 
+**Relevant Section of Code: main_classifiers.ipynb**
+
 ## Conclusion
 
 ### TO DO
@@ -488,14 +270,14 @@ impact of tuning on model performance.
 (e.g., for a rental dataset it could be people’s preference and general taste
 for renting).
 
-- Discuss the lessons learned about data mining methodology.
+### Insights
+Working with the flight delay dataset, we have learned that classifying flight delays into 'on-time' and 'delayed' categories is more complex than initially expected. ...
 
-- Discussions of challenges, limitations, and potential future work.
+### Data Mining Methodology Lessons
+This project reinforced several core steps in data mining methodology. First, the importance of data preprocessing became clear, as transforming numerical features and categorical  variables into a format suitable for analysis was crucial for obtaining meaningful results. Additionally, the effectiveness of clustering algorithms in uncovering hidden patterns was evident, demonstrating the value of unsupervised learning methods in exploratory data analysis. Finally, the need for careful evaluation of model performance was highlighted, as simple classification models often failed to capture the complexity of our dataset, urging the use of more sophisticated methods such as feature selection techniques and hyperparameter tuning.
 
-- The README file in your repository will serve as the primary report. It
-should clearly explain the results of each task, with references to the relevant
-sections of the code.
-
+### Challenges, Limitations, and Future Work
+While the results from clustering and classification models were insightful, several challenges and limitations were encountered throughout the course of the project. One of the key challenges we found in our EDA was the imbalance in the dataset, with approximately 81% of the flights labeled as 'on-time' and only 19% as 'delayed'. This class imbalance introduced bias in model training, as the model may have become biased towards predicting the majority class ('ontime') more frequently, leading to a poor performance in detecting delayed flights. The complexity of flight delays, influenced by a multitude of unpredictable variables, also hindered the performance of the models. Future work on the project could involve integrating additional data sources to improve prediction accuracy or focussing on analyzing the temporal aspects of flight delays to further refine the models. Furthermore, exploring deep learning techniques or ensemble methods could potentially yield better results for predicting delays.
 
 
 
