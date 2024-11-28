@@ -416,7 +416,7 @@ Working with the flight delay dataset, we have learned that classifying flight d
 This project reinforced several core steps in data mining methodology. First, the importance of data preprocessing became clear, as transforming numerical features and catergorical variables into a format suitable for analysis was crucial for obtaining meaningful results. Additionally, the effectiveness of clustering algorithms in uncovering hidden patterns was evident, demonstrating the value of unsupervised learning methods in exploratory data analysis. Finally, the need for careful evaluation of model performance was highlighted, as simple classification models often failed to capture the complexity of our dataset, urging the use of more sophisticated such as feature selection techniques and hyperparameter tuning.
 
 ### Challenges, Limitations, and Future Work
-While the results from clustering and classification models were insightful, serveral challenges and limitations were encountered throughout the course of the project.
+While the results from clustering and classification models were insightful, serveral challenges and limitations were encountered throughout the course of the project. One of the key challenges we found in our EDA was the imbalance in the dataset, with approxiamtely 81% of the flights labeled as 'on-time' and only 19% as 'delayed'. This class imbalance introduced bias in model training, as the model may have become biased towards predicting the majority class ('ontime') more frequently, leading to a poor performance in detecting delayed flights. 
 
 
 
