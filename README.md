@@ -339,13 +339,7 @@ The tuned model achieved an AUC score of 0.637, indicating better class separati
 
 ## Conclusion
 
-### TO DO
-- Discuss the insights that you learned about the domain of the dataset
-(e.g., for a rental dataset it could be people’s preference and general taste
-for renting).
-
-### Insights
-Working with the flight delay dataset, we have learned that classifying flight delays into 'on-time' and 'delayed' categories is more complex than initially expected. ...
+Working with the flight delay dataset, we have learned that classifying flight delays into 'on-time' and 'delayed' categories is more complex than initially expected. Despite using a variety of classification models, hyperparameter tuning and outlier detection techniques, we were unable to achieve a model capable of reliably identifying delayed flights with high accuracy or precision. This outcome underscores two significant challenges: the class imbalance in the dataset, where on-time flights vastly outnumber delays, and the general unpredictable nature of flight delays, which are influenced by external factors such as weather, air traffic, and operational disruptions. Overall we enjoyed working on this project, especially designing the graphs and figures that best describe the behaviour of the data. This was an interesting project that allowed use to apply what we learned in class to a real-life dataset, and even though model performances were not ideal, it was a great learning experience. 
 
 ### Data Mining Methodology Lessons
 This project reinforced several core steps in data mining methodology. First, the importance of data preprocessing became clear, as transforming numerical features and categorical  variables into a format suitable for analysis was crucial for obtaining meaningful results. Additionally, the effectiveness of clustering algorithms in uncovering hidden patterns was evident, demonstrating the value of unsupervised learning methods in exploratory data analysis. Finally, the need for careful evaluation of model performance was highlighted, as simple classification models often failed to capture the complexity of our dataset, urging the use of more sophisticated methods such as feature selection techniques and hyperparameter tuning.
