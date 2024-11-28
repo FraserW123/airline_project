@@ -155,32 +155,19 @@ After performing classification algorithms on the dataset with outliers and with
 - Contains code for classification comparison
 
 ## Feature Selection
-The feature selection technique we utilized was Recursive Feature Elimination (RFE).
+The feature selection technique we employed was Recursive Feature Elimination (RFE). During our analysis, we observed that the algorithm selected a varying number of features across different runs. However, when averaged over five runs, five features consistently appeared as the most frequently selected. Some of these features, such as the average monthly passenger count at the airport and the airline, were reasonably excluded due to their low correlation with other features. Additionally, the snow feature was likely removed because of its low occurrence in the dataset; snowfall is rare for most of the year, which likely led RFE to deem it less significant for the model. We ran the model with the removed features and the results are shown in the classification section of this report. 
 
-### Importance of Selected Features and Impact on the Classification Task
-- Discuss the importance of selected features and their impact on the
-classification task.
-
-
-### Evaluating Feature Selection Performance
-- Evaluate the model with and without feature selection to compare performance
-and computational efficiency.
-
-Recursive Feature Selection Results
----------------------------------------------------------------------------
-|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
-|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
-| Random Forest (Min Max Scaler)| 0.793| 0.789| 0.80| 0.99| 0.36| 0.02| 0.79| 0.507|
-| KNN    (Min Max Scaler)   | 0.77| 0.761| 0.80| 0.95| 0.28| 0.08| 0.77| 0.515|
-| SVM    (Min Max Scaler)   | 0.798| 0.798|0.80| 1.0| 0.0| 0.0| 0.80| 0.5|
-| LightGBM    (Min Max Scaler) | 0.704| 0.729| 0.85| 0.76| 0.34| 0.48| 0.70| 0.621|
-### ROC Plot
-![](results/RFE_classifier_results/rfe%20roc%20results.png)
-
-### Confusion Matrices
-![](results/RFE_classifier_results/rfe%20confusion%20matrix.png)
+|Removable Features by Frequency|
+|-------------------------------|
+|FLT_ATTENDANTS_PER_PASS|
+|SNOW|
+|SNWD|
+|AVG_MONTHLY_PASS_AIRPORT|
+|AVG_MONTHLY_PASS_AIRLINE|
 
 **Relevant Section of Code: main_classifiers.ipynb**
+- Contains code for run_rfe function
+
 
 ## Classification 
  
@@ -206,6 +193,32 @@ Weighted
 
 ### Confusion Matrices
 ![](results/Weighted_classifier_results/weighted%20confusion%20matrices.png)
+
+### Impact of Scaling Methods. 
+Standard Scaler and Min-Max scaler produced similar patterns across most models, with slight variations in performance. For the Random Forest models, both scalers yielded high on-time recall (0.99), but delayed recall was extremely low (0.01-0.02), suggesting that the model struggles with the minority class regardless of scaling. For LightGBM, the AUC scores were slightly higher with the Standard Scaler (0.631 vs 0.630), indicating marginally better class separation.
+
+### Performance on Delayed Flights
+LightGBM consistently achieved the highest balance between delayed precision (0.32) and recall (0.57) under both scaling methods, resulting in higher AUC scores (0.631 and 0.630). This highlights its potential for minority class prediction. 
+
+KNN achieved slightly better delayed precision (0.38 with Standard Scaler), but its recall (0.13) was low, limiting its utility for detecting delayed flights.
+
+SVM showed notable improvement in delayed recall compared to other models, especially under Standard Scaler (0.57). However, its lower overall accuracy (0.6325) suggests a trade-off in general performance. 
+
+### On-Time Flight Predictions (Majority Class):
+
+All models performed well for on-time flight predictions, with precision ranging from 0.80 to 0.86 and recall from 0.94 to 0.99.
+
+SVM and LightGBM demonstrated the highest on-time precision (0.86), reflecting their ability to avoid false positives for on-time flights.
+
+### Overall Model Performance:
+
+Random Forest consistently achieved the highest accuracy (0.795–0.7975), driven largely by its dominance in the majority class. However, its poor performance for delayed flights (AUC scores ~0.5) limits its practicality in this dataset.
+
+KNN offered balanced accuracy (0.77–0.7815) and cross-validation scores (0.767) but struggled with delayed recall, suggesting room for improvement in handling minority classes.
+
+SVM achieved lower accuracy than the previous 2 models (0.606-0.6325), but showed potential for delayed flight detection with relatively high recall (0.57) and decent AUC scores (0.607–0.610).
+
+LightGBM, despite lower accuracy (0.6685–0.6705), demonstrated better AUC scores (0.630–0.631), highlighting its ability to balance performance across both classes. This makes it a strong candidate for scenarios prioritizing minority class predictions.
 
 
 Weighted ISO
@@ -244,11 +257,73 @@ Weighted LOF
 ### Confusion Matrix
 ![](results/LOF%20Results/lof%20confusion.png)
 
+### General Insights on Outlier Detection Results
+The removal of outliers using the Isolation Forest and Local Outlier Factor methods generally did not improve model performance. While minor improvements were observed in cross-validation scores for some models, such as LightGBM, the overall accuracy, precision, and recall metrics remained largely unchanged. In several cases, performance for the minority class (delayed flights) actually worsened, with delayed recall decreasing for models like Random Forest. These results suggest that outlier removal in this context had a limited positive impact and may have inadvertently reduced the models' ability to generalize to the minority class.
+
 **Relevant Section of Code: main_classifiers.ipynb**
 
+## Evaluating Recursive Feature Selection Performance
+Here are the results of the models after applying Recursive Feature Elimination. The performance of the models was analyzed across various metrics, revealing distinct strengths and weaknesses for each classification method 
+
+Recursive Feature Selection Results
+---------------------------------------------------------------------------
+|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
+|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
+| Random Forest (Min Max Scaler)| 0.793| 0.789| 0.80| 0.99| 0.36| 0.02| 0.79| 0.507|
+| KNN    (Min Max Scaler)   | 0.77| 0.761| 0.80| 0.95| 0.28| 0.08| 0.77| 0.515|
+| SVM    (Min Max Scaler)   | 0.798| 0.798|0.80| 1.0| 0.0| 0.0| 0.80| 0.5|
+| LightGBM    (Min Max Scaler) | 0.704| 0.729| 0.85| 0.76| 0.34| 0.48| 0.70| 0.621|
+### ROC Plot
+![](results/RFE_classifier_results/rfe%20roc%20results.png)
+
+### Confusion Matrices
+![](results/RFE_classifier_results/rfe%20confusion%20matrix.png)
+
+### Random Forest
+
+The Random Forest model achieved high accuracy and strong recall for on-time flights, indicating it correctly identifies most on-time flights. However, its performance in predicting delayed flights was poor, with a recall of only 0.02, suggesting it rarely identifies delayed flights correctly. The low AUC score (0.507) reflects limited discrimination between the two classes.
+
+### KNN 
+
+KNN exhibited similar challenges to Random Forest, with good performance for on-time flights but limited success in predicting delays. The delayed recall was slightly better at 0.08, but the overall ability to capture delayed flights remains weak. The AUC score (0.515) suggests only marginal improvement in class discrimination.
+
+### SVM
+
+The SVM model achieved the highest recall for on-time flights, perfectly identifying all instances in this class. However, it completely failed to make predictions for delayed flights, with both precision and recall at 0. This highlights a significant limitation in the model's ability to handle class imbalance, despite its high accuracy for the majority class.
+
+### LightGBM
+
+LightGBM provided the most balanced performance, achieving moderate precision and recall for both on-time and delayed flights. Notably, its delayed recall (0.48) was the highest among all models, making it better suited for handling the minority class. The AUC score (0.621) further confirms its superior class separation ability compared to other models.
+
 ## Hyperparameter Tuning
-The classifier we performed hyperparamter tuning on is ... using Grid Search.
-Hyperparameter Tuning
+The classifier we performed hyperparamter tuning on is the LGBM classifier since it showed strong results in minority class recall, while maintaining decent overall accuracy of the majority class. We used Grid Search method to find the best parameters among the following params to find the highest recall performance.
+```
+param_grid = {
+        'num_leaves': [31, 127],
+        'reg_alpha': [0.1, 0.5],
+        'min_data_in_leaf': [30, 50, 100, 300, 400],
+        'lambda_l1': [0, 1, 1.5],
+        'lambda_l2': [0, 1],
+        
+    }
+```
+
+
+
+### GridSearch Parameter Selection
+Shown below are the parameters that GridSearch ultimately decided to select
+```
+Chosen Params: {'lambda_l1': 1.5, 'lambda_l2': 1, 'min_data_in_leaf': 400, 'num_leaves': 31, 'reg_alpha': 0.1}
+```
+
+The chosen parameters (lambda_l1=1.5, lambda_l2=1, min_data_in_leaf=400, num_leaves=31, and reg_alpha=0.1) suggest that the model prioritized strong regularization and a conservative leaf structure. These settings aim to prevent overfitting by limiting tree complexity and controlling leaf size.
+The smaller num_leaves value (31) keeps the model simple, while min_data_in_leaf=400 ensures that splits occur only when there is substantial data to support them, favoring generalization over precision in edge cases.
+
+
+### Hyperparameter Tuning Performance
+Here are the results of the hyperparameter tuning. We were specifically trying to optimize the recall performance of the LGBM model
+
+
 ------------------------------------------------------------------------------------------
 |Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
 |--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
@@ -258,8 +333,7 @@ Hyperparameter Tuning
 ![](results/Hyper_parameter_results/grid_search%20confusion.png)
 
 ### Evaluating Performance
-- Compare the performance of the model before and after tuning. Discuss the
-impact of tuning on model performance.
+The tuned model achieved an AUC score of 0.637, indicating better class separation than earlier iterations of LightGBM, where AUC scores ranged around 0.604–0.631. This reflects the model’s improved ability to distinguish between on-time and delayed flights. The delayed recall (0.64) improved over the previous LightGBM runs while the delayed precison remained consistent, highlighting the model is now better at detecting delayed flights but still produces false positives at a pretty high rate. The ontime recall got worse (0.64), reflecting a slight tradeoff, with the model showing increased conservativeness in predicting on-time flights, reducing over-prediction of the majority class. Ultimately, the GridSearch method did improve the performance of the LightGBM model, but the low delay precision suggests that the class imbalance still poses a challenge for the model.  
 
 **Relevant Section of Code: main_classifiers.ipynb**
 

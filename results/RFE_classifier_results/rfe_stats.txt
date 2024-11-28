@@ -70,4 +70,22 @@ weighted avg       0.75      0.70      0.72      2000
 
 0.6209915244398002
 
-MinMax Scaler 
+Optimal number of features 22
+[13 21 22]
+Index(['FLT_ATTENDANTS_PER_PASS', 'SNOW', 'SNWD'], dtype='object')
+
+Optimal number of features 21
+[12 13 21 22]
+Index(['AVG_MONTHLY_PASS_AIRLINE', 'FLT_ATTENDANTS_PER_PASS', 'SNOW', 'SNWD'], dtype='object')
+
+Optimal number of features 18
+[ 7 11 12 13 14 21 22]
+Index(['CARRIER_NAME', 'AVG_MONTHLY_PASS_AIRPORT', 'AVG_MONTHLY_PASS_AIRLINE',
+       'FLT_ATTENDANTS_PER_PASS', 'GROUND_SERV_PER_PASS', 'SNOW', 'SNWD'],
+      dtype='object')
+
+Optimal number of features 18
+[ 7 11 12 13 14 21 22]
+Index(['CARRIER_NAME', 'AVG_MONTHLY_PASS_AIRPORT', 'AVG_MONTHLY_PASS_AIRLINE',
+       'FLT_ATTENDANTS_PER_PASS', 'GROUND_SERV_PER_PASS', 'SNOW', 'SNWD'],
+      dtype='object')
