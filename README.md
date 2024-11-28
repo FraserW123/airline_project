@@ -44,10 +44,17 @@ Data columns (total 26 columns):
 
 ### Correlation Heatmap Between All Features
 ![](results/heatmap.png)
+- AIRPORT_FLIGHTS_MONTH and AVG_MONTHLY_PASS_AIRPORT have the strongest correlation with a value of 0.97, this might indicate redundancy as these features may capture overlapping information about flight frequency.
+- Features like AVG_MONTHLY_PASS_AIRLINE and AVG_MONTHLY_PASS_AIRPORT show moderate correlation with flight-related variables. This suggests a meaningful relationship between the number of passengers and flight frequency or availability.
+- Weather features such as PRCP, SNOW, TMAX, and AWNND show weak correlations with most other features, this might indicate that weather-related factors may play a smaller role in the dataset, or the impact of weather on delay may not be fully captured.
 ### Correlation Between Delayed Flights and Features
 ![](results/correlation%20bar%20graph.png)
+
+The two strongest positive correlations between delayed flights and features are DEP_TIME_BLK and SEGMENT_NUMBER. Both these features are temporal aspects as DEP_TIME_BLK represents the distance group to be flown by departing aircraft and SEGMENT_NUMBER represents the segment that this tail number is on for the day. This might indicate that the time of departure is a key factor affecting delays. For instance, certain time blocks might experience higher congestion and delays.
 ### Data Proportions
 ![](results/delayedproportion.png)
+
+The pie chart shows that 80.7% of the data is 'on-time' and only 19.3% is 'delayed' this clearly shows a skewed distribution. This indicates that the dataset is imbalanced, which can present challenges for classification models. Models trained on this dataset may become biased toward predicting the majority class ('on-time') because it dominates the training data. This can result in high accuracy but poor recall for the minority class ('delayed') and also misleading metrics like accuracy. 
 ### Ontime Flights vs Delayed Flights
 ![](results/flights.png)
 ### Departing Airports Delays
@@ -61,10 +68,6 @@ The top 5 airports with the most delays are:
 |Chicago O'Hare International      | 97               |
 |Dallas Fort Worth Regional        | 96               |
 |Douglas Municipal                 | 74               |
-
-### TO DO 
-- Discuss key insights drawn from EDA and potential challenges with the
-dataset (e.g., class imbalance, highly correlated features).
 
 ## Data Preprocessing
 Our dataset did not include any missing values, so we did not need to perform any data imputation or removal. For the categorical variables we opted to use label encoding over one-hot encoding because the features DEPARTING_AIRPORT and PREVIOUS_AIRPORT contained many unique values. This was not ideal as it created hundreds of additional columns, due to how one-hot coding creates a separate column for each category.
@@ -295,6 +298,7 @@ The SVM model achieved the highest recall for on-time flights, perfectly identif
 
 LightGBM provided the most balanced performance, achieving moderate precision and recall for both on-time and delayed flights. Notably, its delayed recall (0.48) was the highest among all models, making it better suited for handling the minority class. The AUC score (0.621) further confirms its superior class separation ability compared to other models.
 
+**Relevant Section of Code: main_classifiers.ipynb**
 ## Hyperparameter Tuning
 The classifier we performed hyperparamter tuning on is the LGBM classifier since it showed strong results in minority class recall, while maintaining decent overall accuracy of the majority class. We used Grid Search method to find the best parameters among the following params to find the highest recall performance.
 ```
