@@ -389,14 +389,71 @@ classification task.
 - Evaluate the model with and without feature selection to compare performance
 and computational efficiency.
 
+Recursive Feature Selection Results
+---------------------------------------------------------------------------
+|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
+|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
+| Random Forest (Min Max Scaler)| 0.793| 0.789| 0.80| 0.99| 0.36| 0.02| 0.79| 0.507|
+| KNN    (Min Max Scaler)   | 0.77| 0.761| 0.80| 0.95| 0.28| 0.08| 0.77| 0.515|
+| SVM    (Min Max Scaler)   | 0.798| 0.798|0.80| 1.0| 0.0| 0.0| 0.80| 0.5|
+| LightGBM    (Min Max Scaler) | 0.704| 0.729| 0.85| 0.76| 0.34| 0.48| 0.70| 0.621|
+
 
 ## Classification 
-The classification algorithms we utilized includes ...
+ 
+Our team of two tested four classification models—Random Forests, KNN, SVM, and LightGBM—and evaluated their performance. To ensure a comprehensive analysis, we first ran the models with outliers included, then re-ran them after applying two different outlier detection methods. We evaluated these models using accuracy scores, cross-validation, f-1 scores and ROC curves. Based on this evaluation, we selected the best-performing model for hyperparameter tuning to further optimize its performance. 
 
 ### Evaluating Performance
+Here are the results of our models. 
+
+Weighted
+-------------------------------------------------------------------------
+|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
+|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
+| Random Forest (Standard Scaler)| 0.795| 0.792| 0.8| 0.99| 0.32| 0.01| 0.79| 0.503|
+| KNN    (Standard Scaler)   | 0.7815|0.767  | 0.81| 0.95| 0.38| 0.13| 0.78| 0.538| 
+| SVM    (Standard Scaler)   | 0.6325|0.61  | 0.85| 0.65| 0.29| 0.57| 0.63| 0.607| 
+| LightGBM    (Standard Scaler) | 0.6705|0.7025  |0.86| 0.70| 0.32| 0.57| 0.67| 0.631|
+| Random Forest (Min Max Scaler)|0.7975 |0.795 | 0.80| 0.99| 0.43| 0.02| 0.80| 0.507|
+| KNN    (Min Max Scaler)   | 0.77| 0.767| 0.81| 0.94| 0.32| 0.12| 0.77| 0.526|
+| SVM    (Min Max Scaler)   | 0.606| 0.578| 0.86| 0.60| 0.28| 0.62| 0.61| 0.610|
+| LightGBM    (Min Max Scaler) | 0.6685| 0.6905| 0.86| 0.69| 0.32| 0.57| 0.67| 0.630|
+
+
+Weighted ISO
+------------------------------------------------------------------------------------------
+|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
+|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
+| Random Forest (Standard Scaler)| 0.832| 0.830| 0.83| 1.0| 0.4| 0.01| 0.83| 0.505|
+| KNN    (Standard Scaler)   | 0.809| 0.813| 0.84| 0.95| 0.27| 0.08| 0.81| 0.518|
+| SVM    (Standard Scaler)   | 0.643| 0.671| 0.89| 0.66| 0.25| 0.58| 0.64| 0.619|
+| LightGBM    (Standard Scaler) | 0.67| 0.736| 0.88| 0.71| 0.26| 0.50| 0.67| 0.604|
+| Random Forest (Min Max Scaler)| 0.8304| 0.83| 0.83|1.0| 0.25| 0.01| 0.83| 0.501|
+| KNN    (Min Max Scaler)   | 0.81| 0.814| 0.84| 0.96| 0.29| 0.09| 0.81| 0.522|
+| SVM    (Min Max Scaler)   | 0.602| 0.626| 0.89| 0.60| 0.24| 0.63| 0.60| 0.612|
+| LightGBM    (Min Max Scaler) | 0.671| 0.743| 0.88| 0.70| 0.26| 0.51| 0.67| 0.606|
+
+Weighted LOF
+---------------------------------------------------------------------------
+|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
+|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
+| Random Forest (Standard Scaler)| 0.830| 0.832| 0.83| 1.0| 0.25| 0.01| 0.83| 0.501|
+| KNN    (Standard Scaler)   | 0.808| 0.813| 0.84| 0.95| 0.27| 0.08| 0.81| 0.518|
+| SVM    (Standard Scaler)   | 0.644| 0.671| 0.89| 0.66| 0.25| 0.58| 0.64| 0.618|
+| LightGBM    (Standard Scaler) | 0.672| 0.736| 0.88| 0.71| 0.26| 0.50| 0.67| 0.604|
+| Random Forest (Min Max Scaler)| 0.831| 0.832| 0.83| 1.0| 0.38| 0.01| 0.83| 0.503|
+| KNN    (Min Max Scaler)   | 0.810| 0.814| 0.84| 0.96| 0.29| 0.09| 0.81| 0.522|
+| SVM    (Min Max Scaler)   | 0.603| 0.626| 0.89| 0.60| 0.24| 0.63| 0.60| 0.612|
+| LightGBM    (Min Max Scaler) | 0.671| 0.743| 0.88| 0.70| 0.26| 0.51| 0.67| 0.606|
+
 
 ## Hyperparameter Tuning
 The classifier we performed hyperparamter tuning on is ... using Grid Search.
+Hyperparameter Tuning
+------------------------------------------------------------------------------------------
+|Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
+|--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
+| LightGBM    (Min Max Scaler) | 0.606| 0.657| 0.87| 0.64| 0.31| 0.64| 0.64| 0.637|
 
 ### Evaluating Performance
 - Compare the performance of the model before and after tuning. Discuss the
