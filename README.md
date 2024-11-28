@@ -397,7 +397,11 @@ Recursive Feature Selection Results
 | KNN    (Min Max Scaler)   | 0.77| 0.761| 0.80| 0.95| 0.28| 0.08| 0.77| 0.515|
 | SVM    (Min Max Scaler)   | 0.798| 0.798|0.80| 1.0| 0.0| 0.0| 0.80| 0.5|
 | LightGBM    (Min Max Scaler) | 0.704| 0.729| 0.85| 0.76| 0.34| 0.48| 0.70| 0.621|
+### ROC Plot
+![](results/RFE_classifier_results/rfe%20roc%20results.png)
 
+### Confusion Matrices
+![](results/RFE_classifier_results/rfe%20confusion%20matrix.png)
 
 ## Classification 
  
@@ -418,6 +422,11 @@ Weighted
 | KNN    (Min Max Scaler)   | 0.77| 0.767| 0.81| 0.94| 0.32| 0.12| 0.77| 0.526|
 | SVM    (Min Max Scaler)   | 0.606| 0.578| 0.86| 0.60| 0.28| 0.62| 0.61| 0.610|
 | LightGBM    (Min Max Scaler) | 0.6685| 0.6905| 0.86| 0.69| 0.32| 0.57| 0.67| 0.630|
+### ROC Plot
+![](results/Weighted_classifier_results/weighted_roc.png)
+
+### Confusion Matrices
+![](results/Weighted_classifier_results/weighted%20confusion%20matrices.png)
 
 
 Weighted ISO
@@ -432,6 +441,11 @@ Weighted ISO
 | KNN    (Min Max Scaler)   | 0.81| 0.814| 0.84| 0.96| 0.29| 0.09| 0.81| 0.522|
 | SVM    (Min Max Scaler)   | 0.602| 0.626| 0.89| 0.60| 0.24| 0.63| 0.60| 0.612|
 | LightGBM    (Min Max Scaler) | 0.671| 0.743| 0.88| 0.70| 0.26| 0.51| 0.67| 0.606|
+### ROC Plot
+![](results/Iso_forest_results/iso%20roc.png)
+
+### Confusion Matrices
+![](results/Iso_forest_results/iso%20confusion.png)
 
 Weighted LOF
 ---------------------------------------------------------------------------
@@ -445,6 +459,11 @@ Weighted LOF
 | KNN    (Min Max Scaler)   | 0.810| 0.814| 0.84| 0.96| 0.29| 0.09| 0.81| 0.522|
 | SVM    (Min Max Scaler)   | 0.603| 0.626| 0.89| 0.60| 0.24| 0.63| 0.60| 0.612|
 | LightGBM    (Min Max Scaler) | 0.671| 0.743| 0.88| 0.70| 0.26| 0.51| 0.67| 0.606|
+### ROC Plot
+![](results/LOF%20Results/lof%20roc.png)
+
+### Confusion Matrix
+![](results/LOF%20Results/lof%20confusion.png)
 
 
 ## Hyperparameter Tuning
@@ -454,6 +473,9 @@ Hyperparameter Tuning
 |Classification Model| Accuracy Score| Cross Validation| Ontime Precision |Ontime Recall |Delayed Precision | Delayed Recall |  F-1 Score| AUC Score |  
 |--------------------|---------------|-----------------|----------------|----------------|------------------|----------------|-----------|-----------|
 | LightGBM    (Min Max Scaler) | 0.606| 0.657| 0.87| 0.64| 0.31| 0.64| 0.64| 0.637|
+
+![](results/Hyper_parameter_results/grid_search%20lgbm.png)
+![](results/Hyper_parameter_results/grid_search%20confusion.png)
 
 ### Evaluating Performance
 - Compare the performance of the model before and after tuning. Discuss the
