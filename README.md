@@ -48,6 +48,36 @@ Data columns (total 26 columns):
 - Features like AVG_MONTHLY_PASS_AIRLINE and AVG_MONTHLY_PASS_AIRPORT show moderate correlation with flight-related variables. This suggests a meaningful relationship between the number of passengers and flight frequency or availability.
 - Weather features such as PRCP, SNOW, TMAX, and AWNND show weak correlations with most other features, this might indicate that weather-related factors may play a smaller role in the dataset, or the impact of weather on delay may not be fully captured.
 ### Correlation Between Delayed Flights and Features
+
+| Column                         |Non-Null Count|  
+|---                       | --------------  |
+|DEP_TIME_BLK                     |0.165841|
+|SEGMENT_NUMBER                   |0.110103|
+|PRCP                             |0.079195|
+|AWND                           |0.029255|
+|DISTANCE_GROUP                 |0.027949|
+|LONGITUDE                        |0.027434|
+|SNOW                             |0.026665|
+|AIRPORT_FLIGHTS_MONTH            |0.025948|
+|AVG_MONTHLY_PASS_AIRPORT         |0.024858|
+|AIRLINE_AIRPORT_FLIGHTS_MONTH    |0.018791|
+|SNWD                             |0.017240|
+|DAY_OF_WEEK                     |0.016116|
+|TMAX                             |0.015229|
+|CONCURRENT_FLIGHTS               |0.012084|
+|AIRLINE_FLIGHTS_MONTH           |0.009144|
+|NUMBER_OF_SEATS                  |0.008761|
+|PLANE_AGE                        |0.006229|
+|CARRIER_NAME                    | 0.005165|
+|AVG_MONTHLY_PASS_AIRLINE        | 0.003998|
+|PREVIOUS_AIRPORT                |-0.004815|
+|MONTH                           |-0.006062|
+|DEPARTING_AIRPORT               |-0.008574|
+|FLT_ATTENDANTS_PER_PASS         |-0.014032|
+|LATITUDE                        |-0.022563|
+|GROUND_SERV_PER_PASS            |-0.024497|
+
+
 ![](results/correlation%20bar%20graph.png)
 
 The two strongest positive correlations between delayed flights and features are DEP_TIME_BLK and SEGMENT_NUMBER. Both these features are temporal aspects as DEP_TIME_BLK represents the distance group to be flown by departing aircraft and SEGMENT_NUMBER represents the segment that this tail number is on for the day. This might indicate that the time of departure is a key factor affecting delays. For instance, certain time blocks might experience higher congestion and delays.
